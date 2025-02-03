@@ -1,7 +1,7 @@
 # Личный проект «Шесть городов»
 
 * Студент: [Елена Гореликова](https://up.htmlacademy.ru/react-individual/3/user/1527977).
-* Наставник: [Роман Решетников](https://htmlacademy.ru/profile/).
+* Наставник: [Роман Решетников](https://htmlacademy.ru/profile/id1919895).
 
 ---
 
