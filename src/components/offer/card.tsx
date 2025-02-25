@@ -1,5 +1,8 @@
-import { CardType } from '../../type';
-import RatingStars from '../ratingStars';
+import {Link, useLocation} from 'react-router-dom';
+import { getState } from './utils';
+import { AppRoute } from '../../const/enum';
+import { CardType } from '../../const/type';
+import RatingStars from '../rating-stars';
 
 function Card(card: CardType): JSX.Element {
   const {
@@ -12,20 +15,17 @@ function Card(card: CardType): JSX.Element {
     isPremium,
     rating,
   } = card;
-
+  const { pathname } = useLocation();
+  const { placeClassPrefix, addInfoClass } = getState(pathname as AppRoute);
   return (
-    <article className="cities__card place-card">
-      {/* <article className="favorites__card place-card"> */}
-      {/* <article className="near-places__card place-card"> */}
+    <article className={`${placeClassPrefix}__card place-card`}>
       {isPremium && (
         <div className="place-card__mark">
           <span>Premium</span>
         </div>
       )}
-      <div className="cities__image-wrapper place-card__image-wrapper">
-        {/* <div className="favorites__image-wrapper place-card__image-wrapper"> */}
-        {/* <div className="near-places__image-wrapper place-card__image-wrapper"> */}
-        <a href="">
+      <div className={`${placeClassPrefix}__image-wrapper place-card__image-wrapper`}>
+        <Link to={`/offer/${id}`}>
           <img
             className="place-card__image"
             src={previewImage}
@@ -33,10 +33,9 @@ function Card(card: CardType): JSX.Element {
             height="200"
             alt="Place image"
           />
-        </a>
+        </Link>
       </div>
-      <div className="place-card__info">
-        {/* <div className="favorites__card-info place-card__info"> */}
+      <div className={`place-card__info ${addInfoClass}`}>
         <div className="place-card__price-wrapper">
           <div className="place-card__price">
             <b className="place-card__price-value">&euro;{price}</b>
@@ -51,9 +50,9 @@ function Card(card: CardType): JSX.Element {
             </span>
           </button>
         </div>
-        <RatingStars rating={rating} isPreview />
+        <RatingStars rating={rating} />
         <h2 className="place-card__name">
-          <a href={`/offer/${id}`}>{title}</a>
+          <Link to={`/offer/${id}`}>{title}</Link>
         </h2>
         <p className="place-card__type">{type}</p>
       </div>

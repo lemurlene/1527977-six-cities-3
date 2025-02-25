@@ -1,10 +1,10 @@
-type InputFieldProps = {
+type InputProps = {
   type: string;
   name: string;
   placeholder: string;
 }
 
-function InputField({ type, name, placeholder }: InputFieldProps): JSX.Element {
+function Input({ type, name, placeholder }: InputProps): JSX.Element {
   return (
     <div className="login__input-wrapper form__input-wrapper">
       <label className="visually-hidden">{placeholder}</label>
@@ -19,4 +19,4 @@ function InputField({ type, name, placeholder }: InputFieldProps): JSX.Element {
   );
 }
 
-export default InputField;
+export default Input;

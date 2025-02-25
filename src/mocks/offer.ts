@@ -1,3 +1,5 @@
+import { OfferType } from '../const/type';
+
 export const offer = {
   'id': 'a1b9061f-79a9-4afe-9ce5-5099eaba930e',
   'title': 'Penthouse, 4-5 rooms + 5 balconies',
@@ -50,4 +52,4 @@ export const offer = {
   'rating': 5,
   'bedrooms': 2,
   'maxAdults': 4
-};
+} satisfies OfferType;
