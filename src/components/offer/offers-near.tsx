@@ -1,4 +1,4 @@
-import Card from './card';
+import { OfferList } from '../../components/offer';
 import { CardType } from '../../const/type';
 
 type GetPlacesProps = {
@@ -10,9 +10,7 @@ function OffersNear({ offersNear, NearPlacesCardsCount }: GetPlacesProps): JSX.E
   return (
     <section className="near-places places">
       <h2 className="near-places__title">Other places in the neighbourhood</h2>
-      <div className="near-places__list places__list">
-        {offersNear.slice(0, NearPlacesCardsCount).map((card) => (<Card key={card.id} {...card} />))}
-      </div>
+      <OfferList offers={offersNear} cardsCount={NearPlacesCardsCount} />
     </section>
   );
 }

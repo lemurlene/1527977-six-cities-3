@@ -1,5 +1,7 @@
+import { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
+import { Nullable } from 'vitest';
 import FavoritesEmpty from './favorites-empty';
 import { Card } from '../../components/offer';
 import { CardType } from '../../const/type';
@@ -9,14 +11,22 @@ type GetCardsProps = {
 }
 
 function FavoritesPage({ offers }: GetCardsProps): JSX.Element {
+  const [activeCard, setActiveCard] = useState<Nullable<CardType>>(null);
+  const handleHover = (card?: CardType) => {
+    setActiveCard(card || null);
+  };
+  useEffect(() => {
+    console.log(activeCard);
+  }, [activeCard]);
   const isEmpty = offers.length === 0;
   return (
     <>
       <Helmet>
         <title>6 cities: favorites</title>
       </Helmet>
-      <div className={`page ${isEmpty ? 'page--favorites-empty' : ''} `}>
-        {isEmpty ? (<FavoritesEmpty />) : (
+      <div className={`page ${isEmpty && 'page--favorites-empty'} `}>
+        {isEmpty && <FavoritesEmpty />}
+        {!isEmpty && (
           <main className="page__main page__main--favorites">
             <div className="page__favorites-container container">
               <section className="favorites">
@@ -32,7 +42,7 @@ function FavoritesPage({ offers }: GetCardsProps): JSX.Element {
                         </div>
                       </div>
                       <div className="favorites__places">
-                        <Card {...card} />
+                        <Card card={card} handleHover={handleHover} />
                       </div>
                     </li>
                   ))}
