@@ -1,4 +1,4 @@
-import { CardType } from '../type';
+import { CardType } from '../const/type';
 
 export const offers = [
   {

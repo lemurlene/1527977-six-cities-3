@@ -1,6 +1,6 @@
-import { OfferType, ReviewType } from '../../type';
-import RatingStars from '../ratingStars';
-import Reviews from '../review/reviews';
+import { OfferType, ReviewType } from '../../const/type';
+import RatingStars from '../rating-stars';
+import Reviews from '../reviews';
 import Map from '../map';
 
 type GetOfferProps = {
@@ -52,10 +52,10 @@ function Offer({ offer, comments }: GetOfferProps): JSX.Element {
               <svg className="offer__bookmark-icon" width="31" height="33">
                 <use xlinkHref="#icon-bookmark"></use>
               </svg>
-              {isFavorite ? 'In bookmarks' : 'To bookmarks'}
+              <span className="visually-hidden">{`${isFavorite ? 'In bookmarks' : 'To bookmarks'}`}</span>
             </button>
           </div>
-          <RatingStars rating={rating} isPreview />
+          <RatingStars rating={rating} />
           <ul className="offer__features">
             <li className="offer__feature offer__feature--entire">
               {type}

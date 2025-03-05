@@ -1,5 +1,5 @@
 import Card from './card';
-import { CardType } from '../../type';
+import { CardType } from '../../const/type';
 
 type GetPlacesProps = {
   NearPlacesCardsCount: number;
