@@ -17,7 +17,7 @@ function OfferList({ offers, cardsCount }: GetCardsProps): JSX.Element {
     setActiveCard(card || null);
   };
   useEffect(() => {
-    console.log(activeCard);
+    // console.log(activeCard);
   }, [activeCard]);
   const { pathname } = useLocation();
   const { offerListClass } = getState(pathname as AppRoute);
