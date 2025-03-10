@@ -1,3 +1,3 @@
 import { AuthorizationStatus } from '../const/enum.ts';
 
-export const getAuthorizationStatus = () => AuthorizationStatus.NoAuth;
+export const getAuthorizationStatus = () => AuthorizationStatus.Auth;

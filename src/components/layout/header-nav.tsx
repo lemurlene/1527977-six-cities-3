@@ -16,12 +16,13 @@ function HeaderNav(): JSX.Element {
           <Link className="header__nav-link header__nav-link--profile" to={targetRoute}>
             <div className="header__avatar-wrapper user__avatar-wrapper">
             </div>
-            {isAuthenticated ? (
+            {isAuthenticated && (
               <>
                 <span className="header__user-name user__name">{EMAIL}</span>
                 <span className="header__favorite-count">{FAVORETES_COUNT}</span>
               </>
-            ) : <span className="header__login">Sign in</span>}
+            )}
+            {!isAuthenticated && <span className="header__login">Sign in</span>}
           </Link>
         </li>
         {isAuthenticated && (

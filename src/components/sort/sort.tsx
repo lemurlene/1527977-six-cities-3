@@ -3,7 +3,7 @@ const DEFAULT_SORT = Setting.DefaultSort;
 
 function Sort(): JSX.Element {
   const sortOptions = Object.values(SortTypes).map((option) => (
-    <li key={option} className={`places__option ${option === DEFAULT_SORT ? 'places__option--active' : ''}`} tabIndex={0}>
+    <li key={option} className={`places__option ${option === DEFAULT_SORT && 'places__option--active'}`} tabIndex={0}>
       {option}
     </li>
   ));

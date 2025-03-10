@@ -48,11 +48,14 @@ function Offer({ offer, comments }: GetOfferProps): JSX.Element {
           )}
           <div className="offer__name-wrapper">
             <h1 className="offer__name">{title}</h1>
-            <button className={`offer__bookmark-button button ${isFavorite ? 'offer__bookmark-button--active' : ''}`} type="button">
+            <button className={`offer__bookmark-button button ${isFavorite && 'offer__bookmark-button--active'}`} type="button">
               <svg className="offer__bookmark-icon" width="31" height="33">
                 <use xlinkHref="#icon-bookmark"></use>
               </svg>
-              <span className="visually-hidden">{`${isFavorite ? 'In bookmarks' : 'To bookmarks'}`}</span>
+              <span className="visually-hidden">
+                {isFavorite && 'In bookmarks'}
+                {!isFavorite && 'To bookmarks'}
+              </span>
             </button>
           </div>
           <RatingStars rating={rating} />

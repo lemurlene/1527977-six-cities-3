@@ -5,6 +5,7 @@ export const Setting = {
   RatingsCoefficient: 20,
   OffersPhotoCount: 6,
   NearPlacesCardsCount: 3,
+  MinReviewCharacters: 50,
 } as const;
 
 export const Cities = {
@@ -38,23 +39,23 @@ export const FormLoginFields = [
 
 export const FormReviewFields = [
   {
-    value: 5,
+    ratingValue: 5,
     title: 'perfect'
   },
   {
-    value: 4,
+    ratingValue: 4,
     title: 'good'
   },
   {
-    value: 3,
+    ratingValue: 3,
     title: 'not bad'
   },
   {
-    value: 2,
+    ratingValue: 2,
     title: 'badly'
   },
   {
-    value: 1,
+    ratingValue: 1,
     title: 'terribly'
   }
 ];
