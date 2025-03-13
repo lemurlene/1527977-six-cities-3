@@ -1,24 +1,20 @@
-import { useLocation } from 'react-router-dom';
-import { AppRoute } from '../../const/enum';
-import { Setting } from '../../const/const';
-import { getState } from './utils';
+import { getRatingStars } from './utils';
 
 type GetRatingStarsProps = {
   rating: number;
+  classPrefix: string;
+  isOffer?: boolean;
 }
 
-function RatingStars({ rating }: GetRatingStarsProps): JSX.Element {
-  const getRatingStars = Math.round(rating) * Setting.RatingsCoefficient;
-  const { pathname } = useLocation();
-  const { placeClassPrefix, shouldRenderValue } = getState(pathname as AppRoute);
-
+function RatingStars({ rating, classPrefix, isOffer }: GetRatingStarsProps): JSX.Element {
+  const ratingStars = getRatingStars(rating);
   return (
-    <div className={`rating ${placeClassPrefix}__rating`}>
-      <div className={`rating__stars ${placeClassPrefix}__stars`}>
-        <span style = {{ width: `${getRatingStars}%` }}></span>
+    <div className={`rating ${classPrefix}__rating`}>
+      <div className={`rating__stars ${classPrefix}__stars`}>
+        <span style = {{ width: `${ratingStars}%` }}></span>
         <span className="visually-hidden">Rating</span>
       </div >
-      {shouldRenderValue && (
+      {isOffer && (
         <span className="offer__rating-value rating__value">{rating}</span>
       )}
     </div >

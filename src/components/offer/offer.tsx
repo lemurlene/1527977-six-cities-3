@@ -1,14 +1,17 @@
-import { OfferType, ReviewType } from '../../const/type';
+import cn from 'classnames';
+import { OfferType, ReviewType, CardType } from '../../const/type';
 import RatingStars from '../rating-stars';
 import Reviews from '../reviews';
 import Map from '../map';
+import { Setting } from '../../const/const';
 
 type GetOfferProps = {
   offer: OfferType;
   comments: ReviewType[];
+  offersNear: CardType[];
 }
 
-function Offer({ offer, comments }: GetOfferProps): JSX.Element {
+function Offer({ offer, comments, offersNear }: GetOfferProps): JSX.Element {
   const {
     title,
     description,
@@ -28,15 +31,18 @@ function Offer({ offer, comments }: GetOfferProps): JSX.Element {
     maxAdults
   } = offer;
 
+  // const offersMap = [offer, ...offersNear];
+  const offersMap = offersNear;
+
   return (
     <section className="offer">
       <div className="offer__gallery-container container">
         <div className="offer__gallery">
-          <div className="offer__image-wrapper">
-            {images.map((image) => (
-              <img className="offer__image" key={image} src={image} alt="Photo studio" />)
-            )}
-          </div>
+          {images.slice(0, Setting.OffersPhotoCount).map((image) => (
+            <div className="offer__image-wrapper" key={image} >
+              <img className="offer__image" src={image} alt="Photo studio" />
+            </div>)
+          )}
         </div>
       </div>
       <div className="offer__container container">
@@ -48,7 +54,13 @@ function Offer({ offer, comments }: GetOfferProps): JSX.Element {
           )}
           <div className="offer__name-wrapper">
             <h1 className="offer__name">{title}</h1>
-            <button className={`offer__bookmark-button button ${isFavorite && 'offer__bookmark-button--active'}`} type="button">
+            <button
+              className={cn(
+                'offer__bookmark-button button',
+                { 'offer__bookmark-button--active': isFavorite }
+              )}
+              type="button"
+            >
               <svg className="offer__bookmark-icon" width="31" height="33">
                 <use xlinkHref="#icon-bookmark"></use>
               </svg>
@@ -58,7 +70,7 @@ function Offer({ offer, comments }: GetOfferProps): JSX.Element {
               </span>
             </button>
           </div>
-          <RatingStars rating={rating} />
+          <RatingStars rating={rating} classPrefix='offer' isOffer />
           <ul className="offer__features">
             <li className="offer__feature offer__feature--entire">
               {type}
@@ -98,7 +110,7 @@ function Offer({ offer, comments }: GetOfferProps): JSX.Element {
           <Reviews comments={comments} />
         </div>
       </div>
-      <Map />
+      <Map city={offer.city} offers={offersMap} selectedOfferId={offer.id} />
     </section>
   );
 }

@@ -1,6 +1,4 @@
-import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import { Nullable } from 'vitest';
 import { getState } from './utils';
 import { AppRoute } from '../../const/enum';
 import Card from './card';
@@ -9,16 +7,10 @@ import { CardType } from '../../const/type';
 type GetCardsProps = {
   cardsCount: number;
   offers: CardType[];
+  handleHover: (id: string | null) => void;
 }
 
-function OfferList({ offers, cardsCount }: GetCardsProps): JSX.Element {
-  const [activeCard, setActiveCard] = useState<Nullable<CardType>>(null);
-  const handleHover = (card?: CardType) => {
-    setActiveCard(card || null);
-  };
-  useEffect(() => {
-    // console.log(activeCard);
-  }, [activeCard]);
+function OfferList({ offers, cardsCount, handleHover }: GetCardsProps): JSX.Element {
   const { pathname } = useLocation();
   const { offerListClass } = getState(pathname as AppRoute);
   return (
@@ -34,4 +26,5 @@ function OfferList({ offers, cardsCount }: GetCardsProps): JSX.Element {
 }
 
 export default OfferList;
+
 

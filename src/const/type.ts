@@ -4,6 +4,15 @@ type HousingTypes = 'apartment' | 'room' | 'house' | 'hotel';
 
 type CitiesEnum = typeof Cities[keyof typeof Cities];
 
+export type CityType = {
+  name: CitiesEnum;
+  location: {
+    latitude: number;
+    longitude: number;
+    zoom: number;
+  };
+};
+
 type FullOfferType = {
   id: string;
   title: string;
@@ -12,14 +21,7 @@ type FullOfferType = {
   price: number;
   previewImage: string;
   images: string[];
-  city: {
-    name: CitiesEnum;
-    location: {
-      latitude: number;
-      longitude: number;
-      zoom: number;
-    };
-  };
+  city: CityType;
   location: {
     latitude: number;
     longitude: number;

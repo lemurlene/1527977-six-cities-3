@@ -1,7 +1,7 @@
 import { OfferType } from '../const/type';
 
 export const offer = {
-  'id': 'a1b9061f-79a9-4afe-9ce5-5099eaba930e',
+  'id': '90e98372-3b1c-48c9-9ac5-e33cd208ee94',
   'title': 'Penthouse, 4-5 rooms + 5 balconies',
   'description': 'Relax, rejuvenate and unplug in this ultimate rustic getaway experience in the country. In our beautiful screened Pondhouse, you can gaze at the stars and listen to the sounds of nature from your cozy warm bed.',
   'type': 'apartment',
