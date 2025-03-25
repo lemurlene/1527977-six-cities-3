@@ -25,29 +25,6 @@ export const offers = [
     'rating': 4.9
   },
   {
-    'id': 'b081f557-523a-475d-8154-b8753d5a87ab',
-    'title': 'Tile House',
-    'type': 'house',
-    'price': 734,
-    'previewImage': 'https://15.design.htmlacademy.pro/static/hotel/7.jpg',
-    'city': {
-      'name': 'Paris',
-      'location': {
-        'latitude': 48.85661,
-        'longitude': 2.351499,
-        'zoom': 13
-      }
-    },
-    'location': {
-      'latitude': 48.868610000000004,
-      'longitude': 2.342499,
-      'zoom': 16
-    },
-    'isFavorite': true,
-    'isPremium': true,
-    'rating': 1.3
-  },
-  {
     'id': 'b8e06d94-fe87-41ff-8b35-c944c7e383df',
     'title': 'Tile House',
     'type': 'apartment',
@@ -123,16 +100,16 @@ export const offers = [
     'price': 816,
     'previewImage': 'https://15.design.htmlacademy.pro/static/hotel/8.jpg',
     'city': {
-      'name': 'Brussels',
+      'name': 'Paris',
       'location': {
-        'latitude': 50.846557,
-        'longitude': 4.351697,
+        'latitude': 48.85661,
+        'longitude': 2.351499,
         'zoom': 13
       }
     },
     'location': {
-      'latitude': 50.842557,
-      'longitude': 4.363696999999999,
+      'latitude': 48.868610000000004,
+      'longitude': 2.342499,
       'zoom': 16
     },
     'isFavorite': false,

@@ -1,5 +1,4 @@
 export const Setting = {
-  DefaultCity: 'Paris',
   DefaultSort: 'Popular',
   CardsCount: 5,
   RatingsCoefficient: 20,
@@ -15,6 +14,15 @@ export const Cities = {
   Amsterdam: 'Amsterdam',
   Hamburg: 'Hamburg',
   Dusseldorf: 'Dusseldorf'
+} as const;
+
+export const DefaultCity = {
+  name: 'Paris',
+  location: {
+    latitude: 48.85661,
+    longitude: 2.351499,
+    zoom: 13,
+  },
 } as const;
 
 export const SortTypes = {

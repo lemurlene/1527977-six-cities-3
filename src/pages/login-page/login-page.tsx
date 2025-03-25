@@ -1,9 +1,9 @@
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import FormLogin from '../../components/form-login';
-import { Setting } from '../../const/const';
+import { DefaultCity } from '../../const/const';
 
-const currentCity = Setting.DefaultCity;
+const currentCity = DefaultCity.name;
 
 function LoginPage(): JSX.Element {
   return (

@@ -20,7 +20,7 @@ function Review(review: ReviewType): JSX.Element {
         <span className="reviews__user-name">{name}</span>
       </div>
       <div className="reviews__info">
-        <RatingStars rating={rating}/>
+        <RatingStars rating={rating} classPrefix='reviews'/>
         <p className="reviews__text">{comment}</p>
         <time className="reviews__time" dateTime={date}>{date}</time>
       </div>

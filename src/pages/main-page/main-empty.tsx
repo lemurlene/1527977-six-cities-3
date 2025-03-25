@@ -1,6 +1,6 @@
-import { Setting } from '../../const/const';
+import { DefaultCity } from '../../const/const';
 
-const currentCity = Setting.DefaultCity;
+const currentCity = DefaultCity.name;
 
 function MainEmpty(): JSX.Element {
   return (
