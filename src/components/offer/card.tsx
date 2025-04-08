@@ -8,7 +8,7 @@ import RatingStars from '../rating-stars';
 type CardProps = {
   card: CardType;
   handleHover: (id: string | null) => void;
-  size: {
+  size?: {
     width: number;
     height: number;
   };
