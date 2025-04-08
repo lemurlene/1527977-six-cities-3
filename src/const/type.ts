@@ -2,9 +2,9 @@ import { Cities } from './const';
 
 type HousingTypes = 'apartment' | 'room' | 'house' | 'hotel';
 
-type CitiesEnum = typeof Cities[keyof typeof Cities];
+export type CitiesEnum = typeof Cities[keyof typeof Cities];
 
-export type CityType = {
+type CityType = {
   name: CitiesEnum;
   location: {
     latitude: number;

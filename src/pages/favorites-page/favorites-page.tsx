@@ -22,6 +22,15 @@ function FavoritesPage({ offers }: GetCardsProps): JSX.Element {
   }, [activeCardId]);
 
   const isEmpty = offers.length === 0;
+  const groupedOffers = offers.reduce<Record<string, CardType[]>>((acc, offer) => {
+    const cityName = offer.city.name;
+    if (!acc[cityName]) {
+      acc[cityName] = [];
+    }
+    acc[cityName].push(offer);
+    return acc;
+  }, {});
+
   return (
     <>
       <Helmet>
@@ -35,17 +44,19 @@ function FavoritesPage({ offers }: GetCardsProps): JSX.Element {
               <section className="favorites">
                 <h1 className="favorites__title">Saved listing</h1>
                 <ul className="favorites__list">
-                  {offers.map((card) => (
-                    <li className="favorites__locations-items" key={card.id}>
+                  {Object.entries(groupedOffers).map(([cityName, cityOffers]) => (
+                    <li className="favorites__locations-items" key={cityName}>
                       <div className="favorites__locations locations locations--current">
                         <div className="locations__item">
-                          <Link className="locations__item-link" to="/">
-                            <span>{card.city.name}</span>
+                          <Link className="locations__item-link" to={`/?city=${cityName}`}>
+                            <span>{cityName}</span>
                           </Link>
                         </div>
                       </div>
                       <div className="favorites__places">
-                        <Card card={card} handleHover={handleHover} />
+                        {cityOffers.map((card) => (
+                          <Card key={card.id} card={card} handleHover={handleHover} size={{ width: 150, height: 110 }} />
+                        ))}
                       </div>
                     </li>
                   ))}

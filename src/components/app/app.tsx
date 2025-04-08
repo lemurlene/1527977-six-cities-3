@@ -1,7 +1,7 @@
 import { Route, BrowserRouter, Routes } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import Layout from '../layout';
-import MainPage from '../../pages/main-page';
+import MainPageWrapper from '../../pages/main-page';
 import LoginPage from '../../pages/login-page';
 import FavoritesPage from '../../pages/favorites-page';
 import OfferPage from '../../pages/offer-page';
@@ -28,7 +28,7 @@ function App({ offers, cardsCount, offer, comments, offersNear, NearPlacesCardsC
         <Routes>
           <Route path={AppRoute.Root} element={<Layout />}>
             <Route index
-              element={<MainPage offers={offers} cardsCount={cardsCount} />}
+              element={<MainPageWrapper cardsCount={cardsCount} />}
             />
             <Route path={AppRoute.Login}
               element={
