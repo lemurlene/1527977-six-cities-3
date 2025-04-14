@@ -8,9 +8,13 @@ import RatingStars from '../rating-stars';
 type CardProps = {
   card: CardType;
   handleHover: (id: string | null) => void;
+  size?: {
+    width: number;
+    height: number;
+  };
 }
 
-function Card({ card, handleHover }: CardProps): JSX.Element {
+function Card({ card, handleHover, size = { width: 260, height: 200 } }: CardProps): JSX.Element {
   const {
     id,
     title,
@@ -24,7 +28,7 @@ function Card({ card, handleHover }: CardProps): JSX.Element {
   const { pathname } = useLocation();
   const { placeClassPrefix, addInfoClass } = getState(pathname as AppRoute);
   return (
-    <Link to={`/offer/${id}`}>
+    <Link to={`/offer/${id}`} className={`${placeClassPrefix}__card place-card`}>
       <article
         className={`${placeClassPrefix}__card place-card`}
         onMouseEnter={() => handleHover && handleHover(id)}
@@ -39,8 +43,8 @@ function Card({ card, handleHover }: CardProps): JSX.Element {
           <img
             className="place-card__image"
             src={previewImage}
-            width="260"
-            height="200"
+            width={size.width}
+            height={size.height}
             alt="Place image"
           />
         </div>

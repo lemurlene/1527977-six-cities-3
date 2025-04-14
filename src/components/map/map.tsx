@@ -5,11 +5,15 @@ import 'leaflet/dist/leaflet.css';
 import { AppRoute } from '../../const/enum';
 import { getState } from './utils';
 import useMap from '../../hooks/use-map/';
-import { CardType, CityType} from '../../const/type';
+import { CardType } from '../../const/type';
 import { currentCustomIcon, defaultCustomIcon } from './const';
 
 type MapProps = {
-  city: CityType;
+  city: {
+    latitude: number;
+    longitude: number;
+    zoom: number;
+  };
   offers: CardType[];
   selectedOfferId?: string | null;
 }
@@ -18,12 +22,12 @@ export const Map: React.FC<MapProps> = ({ city, offers, selectedOfferId }): JSX.
   const { pathname } = useLocation();
   const { rootClassPrefix } = getState(pathname as AppRoute);
   const mapContainerRef = useRef<HTMLDivElement>(null);
-  const map = useMap({ location: city.location, containerRef: mapContainerRef });
+  const map = useMap({ location: city, containerRef: mapContainerRef });
   const markerLayer = useRef<LayerGroup>(leaflet.layerGroup());
 
   useEffect(() => {
     if (map) {
-      map.setView([city.location.latitude, city.location.longitude], city.location.zoom);
+      map.setView([city.latitude, city.longitude], city.zoom);
       markerLayer.current.addTo(map);
       markerLayer.current.clearLayers();
     }

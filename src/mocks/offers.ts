@@ -1,29 +1,29 @@
 import { CardType } from '../const/type';
 
 export const offers = [
-  {
-    'id': 'a1b9061f-79a9-4afe-9ce5-5099eaba930e',
-    'title': 'Amazing and Extremely Central Flat',
-    'type': 'apartment',
-    'price': 195,
-    'previewImage': 'https://15.design.htmlacademy.pro/static/hotel/16.jpg',
-    'city': {
-      'name': 'Amsterdam',
-      'location': {
-        'latitude': 52.35514938496378,
-        'longitude': 4.673877537499948,
-        'zoom': 8
-      }
-    },
-    'location': {
-      'latitude': 52.35514938496378,
-      'longitude': 4.673877537499948,
-      'zoom': 8
-    },
-    'isFavorite': true,
-    'isPremium': false,
-    'rating': 4.9
-  },
+  // {
+  //   'id': 'a1b9061f-79a9-4afe-9ce5-5099eaba930e',
+  //   'title': 'Amazing and Extremely Central Flat',
+  //   'type': 'apartment',
+  //   'price': 195,
+  //   'previewImage': 'https://15.design.htmlacademy.pro/static/hotel/16.jpg',
+  //   'city': {
+  //     'name': 'Amsterdam',
+  //     'location': {
+  //       'latitude': 52.35514938496378,
+  //       'longitude': 4.673877537499948,
+  //       'zoom': 8
+  //     }
+  //   },
+  //   'location': {
+  //     'latitude': 52.35514938496378,
+  //     'longitude': 4.673877537499948,
+  //     'zoom': 8
+  //   },
+  //   'isFavorite': true,
+  //   'isPremium': false,
+  //   'rating': 4.9
+  // },
   {
     'id': 'b8e06d94-fe87-41ff-8b35-c944c7e383df',
     'title': 'Tile House',

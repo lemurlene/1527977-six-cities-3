@@ -110,7 +110,7 @@ function Offer({ offer, comments, offersNear }: GetOfferProps): JSX.Element {
           <Reviews comments={comments} />
         </div>
       </div>
-      <Map city={offer.city} offers={offersMap} selectedOfferId={offer.id} />
+      <Map city={offer.city.location} offers={offersMap} selectedOfferId={offer.id} />
     </section>
   );
 }

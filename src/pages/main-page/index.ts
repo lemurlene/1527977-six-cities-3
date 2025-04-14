@@ -1,3 +1,3 @@
-import MainPage from './main-page';
+import MainPageWrapper from './main-page-wrapper';
 
-export default MainPage;
+export default MainPageWrapper;
