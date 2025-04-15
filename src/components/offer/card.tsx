@@ -31,8 +31,8 @@ function Card({ card, handleHover, size = { width: 260, height: 200 } }: CardPro
     <Link to={`/offer/${id}`} className={`${placeClassPrefix}__card place-card`}>
       <article
         className={`${placeClassPrefix}__card place-card`}
-        onMouseEnter={() => handleHover && handleHover(id)}
-        onMouseLeave={() => handleHover && handleHover(null)}
+        onMouseEnter={() => handleHover(id)}
+        onMouseLeave={() => handleHover(null)}
       >
         {isPremium && (
           <div className="place-card__mark">

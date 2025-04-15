@@ -6,8 +6,7 @@ import cn from 'classnames';
 import { store } from '../../store';
 import { useAppSelector } from '../../hooks/store';
 import { selectOffers, selectCity } from '../../store/selectors/offers';
-import { getOffers } from '../../store/action';
-import { offers } from '../../mocks/offers';
+import { fetchOffers } from '../../store/api-action';
 import Tabs from '../../components/tabs';
 import MainEmpty from './main-empty';
 import Sort from '../../components/sort';
@@ -19,7 +18,7 @@ type OfferListProps = {
   cardsCount: number;
 }
 
-store.dispatch(getOffers(offers));
+store.dispatch(fetchOffers());
 
 function MainPage({ cardsCount }: OfferListProps): JSX.Element {
   const offersAll = useAppSelector(selectOffers);

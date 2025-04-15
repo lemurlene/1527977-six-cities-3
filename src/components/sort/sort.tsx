@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import cn from 'classnames';
 import { useAppSelector } from '../../hooks/store';
 import { selectSort } from '../../store/selectors/offers';
 import SortOption from './sort-option';
@@ -47,7 +48,10 @@ function Sort(): JSX.Element {
           <use xlinkHref="#icon-arrow-select"></use>
         </svg>
       </span>
-      <ul className={`places__options places__options--custom ${isSortingOpen && 'places__options--opened'}`}>
+      <ul
+        className={cn('places__options places__options--custom',
+          {'places__options--opened': isSortingOpen})}
+      >
         {sortOption}
       </ul>
     </form>

@@ -31,7 +31,6 @@ function Offer({ offer, comments, offersNear }: GetOfferProps): JSX.Element {
     maxAdults
   } = offer;
 
-  // const offersMap = [offer, ...offersNear];
   const offersMap = offersNear;
 
   return (

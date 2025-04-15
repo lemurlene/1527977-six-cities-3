@@ -18,7 +18,6 @@ function FavoritesPage({ offers }: GetCardsProps): JSX.Element {
   };
 
   useEffect(() => {
-    // console.log(activeCardId);
   }, [activeCardId]);
 
   const isEmpty = offers.length === 0;

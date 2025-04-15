@@ -6,10 +6,13 @@ import LoginPage from '../../pages/login-page';
 import FavoritesPage from '../../pages/favorites-page';
 import OfferPage from '../../pages/offer-page';
 import NotFoundPage from '../../pages/not-found-page';
+import LoadingPage from '../../pages/loading-page';
 import PrivateRoute from '../private-route';
 import { CardType, OfferType, ReviewType } from '../../const/type';
 import { AppRoute } from '../../const/enum';
 import { getAuthorizationStatus } from '../../mocks/authorizationStatus';
+import { useAppSelector } from '../../hooks/store';
+import { selectLoading } from '../../store/selectors/offers';
 
 type AppProps = {
   offers: CardType[];
@@ -22,9 +25,12 @@ type AppProps = {
 
 function App({ offers, cardsCount, offer, comments, offersNear, NearPlacesCardsCount }: AppProps): JSX.Element {
   const authorizationStatus = getAuthorizationStatus();
+  const isOffersLoading = useAppSelector(selectLoading);
   return (
     <HelmetProvider>
       <BrowserRouter>
+        {isOffersLoading && <LoadingPage />}
+        {!isOffersLoading &&
         <Routes>
           <Route path={AppRoute.Root} element={<Layout />}>
             <Route index
@@ -51,7 +57,7 @@ function App({ offers, cardsCount, offer, comments, offersNear, NearPlacesCardsC
               element={<NotFoundPage />}
             />
           </Route>
-        </Routes>
+        </Routes>}
       </BrowserRouter>
     </HelmetProvider>
   );

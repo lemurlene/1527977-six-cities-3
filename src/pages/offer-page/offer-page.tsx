@@ -18,7 +18,6 @@ function OfferPage({ offer, comments, offersNear, NearPlacesCardsCount }: GetOff
   };
 
   useEffect(() => {
-    // console.log(activeCardId);
   }, [activeCardId]);
   return (
     <>
