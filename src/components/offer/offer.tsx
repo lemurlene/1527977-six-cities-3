@@ -4,14 +4,16 @@ import RatingStars from '../rating-stars';
 import Reviews from '../reviews';
 import Map from '../map';
 import { Setting } from '../../const/const';
+import { AuthorizationEnum } from '../../const/type';
 
 type GetOfferProps = {
   offer: OfferType;
   comments: ReviewType[];
   offersNear: CardType[];
+  authorizationStatus: AuthorizationEnum;
 }
 
-function Offer({ offer, comments, offersNear }: GetOfferProps): JSX.Element {
+function Offer({ offer, comments, offersNear, authorizationStatus }: GetOfferProps): JSX.Element {
   const {
     title,
     description,
@@ -106,7 +108,7 @@ function Offer({ offer, comments, offersNear }: GetOfferProps): JSX.Element {
               <p className="offer__text">{description}</p>
             </div>
           </div>
-          <Reviews comments={comments} />
+          <Reviews comments={comments} authorizationStatus={authorizationStatus} />
         </div>
       </div>
       <Map city={offer.city.location} offers={offersMap} selectedOfferId={offer.id} />

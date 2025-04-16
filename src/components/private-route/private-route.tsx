@@ -1,8 +1,9 @@
 import { Navigate } from 'react-router-dom';
 import { AppRoute, AuthorizationStatus } from '../../const/enum';
+import { AuthorizationEnum } from '../../const/type';
 
 type PrivateRouteProps = {
-  authorizationStatus: AuthorizationStatus;
+  authorizationStatus: AuthorizationEnum;
   isReverse?: boolean;
   children: JSX.Element;
 }
