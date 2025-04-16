@@ -59,7 +59,7 @@ function App({ offers, cardsCount, offer, comments, offersNear, NearPlacesCardsC
                   }
                 />
                 <Route path={AppRoute.Offer}
-                  element={<OfferPage offer={offer} comments={comments} offersNear={offersNear} NearPlacesCardsCount={NearPlacesCardsCount} />}
+                  element={<OfferPage authorizationStatus={authorizationStatus} offer={offer} comments={comments} offersNear={offersNear} NearPlacesCardsCount={NearPlacesCardsCount} />}
                 />
                 <Route path={AppRoute.Error404}
                   element={<NotFoundPage />}
