@@ -1,11 +1,13 @@
 import { Link } from 'react-router-dom';
-import { AuthorizationStatus } from '../../const/enum';
+import { AuthorizationEnum } from '../../const/type';
 import { EMAIL, FAVORETES_COUNT } from '../../mocks/const';
-import { getAuthorizationStatus } from '../../mocks/authorizationStatus';
-import { AppRoute } from '../../const/enum';
+import { AppRoute, AuthorizationStatus } from '../../const/enum';
 
-function HeaderNav(): JSX.Element {
-  const authorizationStatus = getAuthorizationStatus();
+type HeaderProps = {
+  authorizationStatus: AuthorizationEnum;
+}
+
+function HeaderNav({ authorizationStatus}: HeaderProps): JSX.Element {
   const isAuthenticated = authorizationStatus === AuthorizationStatus.Auth;
   const targetRoute = isAuthenticated ? AppRoute.Favorites : AppRoute.Login;
 

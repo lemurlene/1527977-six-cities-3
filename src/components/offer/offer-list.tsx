@@ -1,5 +1,5 @@
 import { useLocation } from 'react-router-dom';
-import { useAppSelector } from '../../hooks/store';
+import { useAppSelector } from '../../hooks';
 import { selectSort } from '../../store/selectors/offers';
 import { getState } from './utils';
 import { AppRoute } from '../../const/enum';

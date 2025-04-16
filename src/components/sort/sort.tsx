@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import cn from 'classnames';
-import { useAppSelector } from '../../hooks/store';
+import { useAppSelector } from '../../hooks';
 import { selectSort } from '../../store/selectors/offers';
 import SortOption from './sort-option';
 import { SortTypes } from './const';

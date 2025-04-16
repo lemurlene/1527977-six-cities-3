@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { Route, BrowserRouter, Routes } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import Layout from '../layout';
@@ -8,56 +9,64 @@ import OfferPage from '../../pages/offer-page';
 import NotFoundPage from '../../pages/not-found-page';
 import LoadingPage from '../../pages/loading-page';
 import PrivateRoute from '../private-route';
-import { CardType, OfferType, ReviewType } from '../../const/type';
-import { AppRoute } from '../../const/enum';
-import { getAuthorizationStatus } from '../../mocks/authorizationStatus';
-import { useAppSelector } from '../../hooks/store';
+import { fetchOffers, checkAuthorization } from '../../store/api-action';
+import { AppProps } from './type';
+import { AppRoute, AuthorizationStatus } from '../../const/enum';
+import { useAppSelector, useAppDispatch } from '../../hooks';
 import { selectLoading } from '../../store/selectors/offers';
-
-type AppProps = {
-  offers: CardType[];
-  cardsCount: number;
-  offer: OfferType;
-  comments: ReviewType[];
-  offersNear: CardType[];
-  NearPlacesCardsCount: number;
-}
+import { selectAuthorization } from '../../store/selectors/api';
 
 function App({ offers, cardsCount, offer, comments, offersNear, NearPlacesCardsCount }: AppProps): JSX.Element {
-  const authorizationStatus = getAuthorizationStatus();
+  const dispatch = useAppDispatch();
+  const authorizationStatus = useAppSelector(selectAuthorization);
   const isOffersLoading = useAppSelector(selectLoading);
+  const authorizationStatusUnknown = AuthorizationStatus.Unknown;
+
+  useEffect(() => {
+    dispatch(fetchOffers());
+    dispatch(checkAuthorization());
+  }, [dispatch]);
+
   return (
     <HelmetProvider>
       <BrowserRouter>
-        {isOffersLoading && <LoadingPage />}
-        {!isOffersLoading &&
         <Routes>
-          <Route path={AppRoute.Root} element={<Layout />}>
-            <Route index
-              element={<MainPageWrapper cardsCount={cardsCount} />}
-            />
-            <Route path={AppRoute.Login}
-              element={
-                <PrivateRoute authorizationStatus={authorizationStatus} isReverse>
-                  <LoginPage />
-                </PrivateRoute>
-              }
-            />
-            <Route path={AppRoute.Favorites}
-              element={
-                <PrivateRoute authorizationStatus={authorizationStatus}>
-                  <FavoritesPage offers={offers} />
-                </PrivateRoute>
-              }
-            />
-            <Route path={AppRoute.Offer}
-              element={<OfferPage offer={offer} comments={comments} offersNear={offersNear} NearPlacesCardsCount={NearPlacesCardsCount}/>}
-            />
-            <Route path={AppRoute.Error404}
-              element={<NotFoundPage />}
-            />
-          </Route>
-        </Routes>}
+          {
+            (isOffersLoading || authorizationStatusUnknown)
+              ?
+              <Route path={AppRoute.Root} element={<Layout authorizationStatus={authorizationStatus} />}>
+                <Route index
+                  element={<LoadingPage />}
+                />
+              </Route>
+              :
+              <Route path={AppRoute.Root} element={<Layout authorizationStatus={authorizationStatus} />}>
+                <Route index
+                  element={<MainPageWrapper cardsCount={cardsCount} />}
+                />
+                <Route path={AppRoute.Login}
+                  element={
+                    <PrivateRoute authorizationStatus={authorizationStatus} isReverse>
+                      <LoginPage />
+                    </PrivateRoute>
+                  }
+                />
+                <Route path={AppRoute.Favorites}
+                  element={
+                    <PrivateRoute authorizationStatus={authorizationStatus}>
+                      <FavoritesPage offers={offers} />
+                    </PrivateRoute>
+                  }
+                />
+                <Route path={AppRoute.Offer}
+                  element={<OfferPage offer={offer} comments={comments} offersNear={offersNear} NearPlacesCardsCount={NearPlacesCardsCount} />}
+                />
+                <Route path={AppRoute.Error404}
+                  element={<NotFoundPage />}
+                />
+              </Route>
+          }
+        </Routes>
       </BrowserRouter>
     </HelmetProvider>
   );

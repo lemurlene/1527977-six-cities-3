@@ -49,19 +49,6 @@ export const CityLocation = {
   },
 } as const;
 
-export const FormLoginFields = [
-  {
-    type: 'email',
-    name: 'email',
-    placeholder: 'Email',
-  },
-  {
-    type: 'password',
-    name: 'password',
-    placeholder: 'Password',
-  },
-];
-
 export const FormReviewFields = [
   {
     ratingValue: 5,

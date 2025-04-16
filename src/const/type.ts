@@ -1,4 +1,5 @@
 import { Cities } from './const';
+import { AuthorizationStatus } from './enum';
 
 type HousingTypes = 'apartment' | 'room' | 'house' | 'hotel';
 
@@ -68,3 +69,5 @@ export type ReviewType = {
   comment: string;
   rating: number;
 };
+
+export type AuthorizationEnum = typeof AuthorizationStatus[keyof typeof AuthorizationStatus];

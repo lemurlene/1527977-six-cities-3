@@ -1,5 +1,6 @@
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
+import { style } from './style';
 
 function NotFoundPage(): JSX.Element {
   return (
@@ -14,15 +15,7 @@ function NotFoundPage(): JSX.Element {
             <section className="cities__no-places">
               <div className="cities__status-wrapper tabs__content">
                 <b className="cities__status">404 Page not found</b>
-                <Link to="/"
-                  style={{
-                    color: '#fff',
-                    backgroundColor: '#4481c3',
-                    display: 'block',
-                    padding: '9px 21px 6px 11px',
-                    fontSize: '19px',
-                  }}
-                >
+                <Link to="/" style={style}>
                   Вернуться на главную
                 </Link>
               </div>

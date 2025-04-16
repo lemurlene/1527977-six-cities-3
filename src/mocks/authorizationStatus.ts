@@ -1,4 +1,4 @@
-import { AuthorizationStatus } from '../const/enum.ts';
+// import { AuthorizationStatus } from '../const/enum.ts';
 
-export const getAuthorizationStatus = () => AuthorizationStatus.Auth;
+// export const getAuthorizationStatus = () => AuthorizationStatus.Auth;
 

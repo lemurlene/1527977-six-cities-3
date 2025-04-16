@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { useAppDispatch } from '../../hooks/store';
+import { useAppDispatch } from '../../hooks';
 import { changeCity } from '../../store/action';
 import { Cities } from '../../const/const';
 import { CitiesEnum } from '../../const/type';

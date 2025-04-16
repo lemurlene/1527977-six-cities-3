@@ -1,5 +1,5 @@
 import cn from 'classnames';
-import { useAppDispatch } from '../../hooks/store';
+import { useAppDispatch } from '../../hooks';
 import { changeSort } from '../../store/action';
 import { SortType } from './type';
 

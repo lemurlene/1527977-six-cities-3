@@ -1,15 +1,14 @@
 import Review from './review';
 import FormReview from './form-review';
-import { ReviewType } from '../../const/type';
+import { ReviewType, AuthorizationEnum } from '../../const/type';
 import { AuthorizationStatus } from '../../const/enum';
-import { getAuthorizationStatus } from '../../mocks/authorizationStatus';
 
 type GetReviewProps = {
   comments: ReviewType[];
+  authorizationStatus: AuthorizationEnum;
 }
 
-function Reviews({comments}: GetReviewProps): JSX.Element {
-  const authorizationStatus = getAuthorizationStatus();
+function Reviews({comments, authorizationStatus }: GetReviewProps): JSX.Element {
   const isAuthenticated = authorizationStatus === AuthorizationStatus.Auth;
   return (
     <section className="offer__reviews reviews">

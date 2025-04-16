@@ -1,6 +1,6 @@
 import { NavLink, useSearchParams } from 'react-router-dom';
 import { MouseEvent } from 'react';
-import { useAppDispatch, useAppSelector } from '../../hooks/store';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import { changeCity } from '../../store/action';
 import { selectCity } from '../../store/selectors/offers';
 import { Cities } from '../../const/const';
