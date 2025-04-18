@@ -11,7 +11,8 @@ import LoadingPage from '../../pages/loading-page';
 import PrivateRoute from '../private-route';
 import { fetchOffers, checkAuthorization } from '../../store/api-action';
 import { AppProps } from './type';
-import { AppRoute, AuthorizationStatus } from '../../const/enum';
+import { AppRoute } from '../../const/enum';
+// import { AppRoute, AuthorizationStatus } from '../../const/enum';
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import { selectLoading } from '../../store/selectors/offers';
 import { selectAuthorization } from '../../store/selectors/api';
@@ -20,7 +21,7 @@ function App({ offers, cardsCount, offer, comments, offersNear, NearPlacesCardsC
   const dispatch = useAppDispatch();
   const authorizationStatus = useAppSelector(selectAuthorization);
   const isOffersLoading = useAppSelector(selectLoading);
-  const authorizationStatusUnknown = AuthorizationStatus.Unknown;
+  // const authorizationStatusUnknown = AuthorizationStatus.Unknown;
 
   useEffect(() => {
     dispatch(fetchOffers());
