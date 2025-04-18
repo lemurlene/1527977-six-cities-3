@@ -1,5 +1,6 @@
 import RatingStars from '../rating-stars';
 import { ReviewType } from '../../const/type';
+import { formatedDate } from './utils';
 
 function Review(review: ReviewType): JSX.Element {
   const {
@@ -22,7 +23,9 @@ function Review(review: ReviewType): JSX.Element {
       <div className="reviews__info">
         <RatingStars rating={rating} classPrefix='reviews'/>
         <p className="reviews__text">{comment}</p>
-        <time className="reviews__time" dateTime={date}>{date}</time>
+        <time className="reviews__time" dateTime={date}>
+          {formatedDate(date)}
+        </time>
       </div>
     </li>
   );

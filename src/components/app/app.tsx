@@ -32,7 +32,8 @@ function App({ offers, cardsCount, offer, comments, offersNear, NearPlacesCardsC
       <BrowserRouter>
         <Routes>
           {
-            (isOffersLoading || authorizationStatusUnknown)
+            (isOffersLoading)
+            // (isOffersLoading || authorizationStatusUnknown)
               ?
               <Route path={AppRoute.Root} element={<Layout authorizationStatus={authorizationStatus} />}>
                 <Route index

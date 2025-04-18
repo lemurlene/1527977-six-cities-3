@@ -5,6 +5,7 @@ export const Setting = {
   OffersPhotoCount: 6,
   NearPlacesCardsCount: 3,
   MinReviewCharacters: 50,
+  MaxReviewsCount: 10,
 } as const;
 
 export const Cities = {
