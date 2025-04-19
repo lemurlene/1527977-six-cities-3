@@ -1,7 +1,9 @@
 import { Link } from 'react-router-dom';
 import { AuthorizationEnum } from '../../const/type';
-import { EMAIL, FAVORETES_COUNT } from '../../mocks/const';
 import { AppRoute, AuthorizationStatus } from '../../const/enum';
+import { logoutAction } from '../../store/api-action';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { selectUserInfo } from '../../store/selectors/api';
 
 type HeaderProps = {
   authorizationStatus: AuthorizationEnum;
@@ -10,6 +12,21 @@ type HeaderProps = {
 function HeaderNav({ authorizationStatus}: HeaderProps): JSX.Element {
   const isAuthenticated = authorizationStatus === AuthorizationStatus.Auth;
   const targetRoute = isAuthenticated ? AppRoute.Favorites : AppRoute.Login;
+
+  const userInfo = useAppSelector(selectUserInfo);
+  let email = '';
+  if(userInfo) {
+    email = userInfo.email;
+  }
+  const dispatch = useAppDispatch();
+
+  const handleLogout = () => {
+    if (isAuthenticated) {
+      dispatch(logoutAction());
+    }
+  };
+
+  const FAVORETES_COUNT = 0;
 
   return (
     <nav className="header__nav">
@@ -20,7 +37,7 @@ function HeaderNav({ authorizationStatus}: HeaderProps): JSX.Element {
             </div>
             {isAuthenticated && (
               <>
-                <span className="header__user-name user__name">{EMAIL}</span>
+                <span className="header__user-name user__name">{email}</span>
                 <span className="header__favorite-count">{FAVORETES_COUNT}</span>
               </>
             )}
@@ -29,7 +46,11 @@ function HeaderNav({ authorizationStatus}: HeaderProps): JSX.Element {
         </li>
         {isAuthenticated && (
           <li className="header__nav-item">
-            <Link className="header__nav-link" to="/">
+            <Link
+              className="header__nav-link"
+              onClick={handleLogout}
+              to={AppRoute.Root}
+            >
               <span className="header__signout">Sign out</span>
             </Link>
           </li>

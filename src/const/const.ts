@@ -4,8 +4,6 @@ export const Setting = {
   RatingsCoefficient: 20,
   OffersPhotoCount: 6,
   NearPlacesCardsCount: 3,
-  MinReviewCharacters: 50,
-  MaxReviewsCount: 10,
 } as const;
 
 export const Cities = {
@@ -49,26 +47,3 @@ export const CityLocation = {
     zoom: 13
   },
 } as const;
-
-export const FormReviewFields = [
-  {
-    ratingValue: 5,
-    title: 'perfect'
-  },
-  {
-    ratingValue: 4,
-    title: 'good'
-  },
-  {
-    ratingValue: 3,
-    title: 'not bad'
-  },
-  {
-    ratingValue: 2,
-    title: 'badly'
-  },
-  {
-    ratingValue: 1,
-    title: 'terribly'
-  }
-];

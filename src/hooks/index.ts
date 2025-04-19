@@ -1,4 +1,4 @@
 import useMap from './use-map';
-import { useAppDispatch, useAppSelector } from './store';
+import { useAppDispatch, useAppSelector, createAppAsyncThunk } from './store';
 
-export { useMap, useAppDispatch, useAppSelector };
+export { useMap, useAppDispatch, useAppSelector, createAppAsyncThunk };

@@ -6,36 +6,37 @@ import { BASE_URL, SERVER_TIMEOUT, StatusCodeMapping } from './const';
 
 const shouldDisplayError = (response: AxiosResponse) => !StatusCodeMapping[response.status];
 
-export const createAPI = (): AxiosInstance => {
+const createAPI = (): AxiosInstance => {
   const api = axios.create({
     baseURL: BASE_URL,
     timeout: SERVER_TIMEOUT,
   });
 
-  api.interceptors.request.use(
-    (config: InternalAxiosRequestConfig) => {
-      const token = getToken();
+  api.interceptors.request.use((config: InternalAxiosRequestConfig) => {
+    const token = getToken();
 
-      if (token && config.headers) {
-        config.headers['X-Token'] = token;
-      }
+    if (token && config.headers) {
+      config.headers['X-Token'] = token;
+    }
 
-      return config;
-    },
-  );
+    return config;
+  });
 
   api.interceptors.response.use(
     (response) => response,
     (error: AxiosError<DetailMessageType>) => {
-      if (error.response && shouldDisplayError(error.response)) {
-        const detailMessage = (error.response.data);
-
-        processErrorHandle(detailMessage.message);
+      if (error.response) {
+        if (shouldDisplayError(error.response)) {
+          const errorMessage = error.response.data;
+          const message = errorMessage.details?.[0]?.messages || errorMessage.message;
+          processErrorHandle(message);
+        }
       }
-
-      throw error;
+      return Promise.reject(error);
     }
   );
 
   return api;
 };
+
+export { createAPI };

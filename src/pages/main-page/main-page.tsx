@@ -4,8 +4,6 @@ import { useSearchParams } from 'react-router-dom';
 import { Nullable } from 'vitest';
 import cn from 'classnames';
 import { useAppSelector } from '../../hooks';
-import { store } from '../../store';
-import { fetchOffers } from '../../store/api-action';
 import { selectOffers, selectCity } from '../../store/selectors/offers';
 import Tabs from '../../components/tabs';
 import MainEmpty from './main-empty';
@@ -17,8 +15,6 @@ import { CityLocation } from '../../const/const';
 type OfferListProps = {
   cardsCount: number;
 }
-
-store.dispatch(fetchOffers());
 
 function MainPage({ cardsCount }: OfferListProps): JSX.Element {
   const offersAll = useAppSelector(selectOffers);

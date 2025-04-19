@@ -1,7 +1,8 @@
 import type { RootState } from '../type';
-import { AuthorizationEnum } from '../../const/type';
 
-const selectAuthorization = (state: RootState):AuthorizationEnum => state.authorizationStatus;
-const selectError = (state: RootState): string | null => state.error;
+const selectAuthorization = (state: RootState) => state.authorizationStatus;
+const selectUserInfo = (state: RootState) => state.userData;
+const selectError = (state: RootState) => state.error;
+const selectErrorConnection = (state: RootState) => state.isErrorConnection;
 
-export { selectAuthorization, selectError };
+export { selectAuthorization, selectUserInfo, selectError, selectErrorConnection };

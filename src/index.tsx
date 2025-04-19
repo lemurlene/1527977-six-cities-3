@@ -7,8 +7,6 @@ import { checkAuthorization } from './store/api-action';
 import ErrorMessage from './components/error-message';
 import { Setting } from './const/const';
 import { offers } from './mocks/offers';
-import { offer } from './mocks/offer';
-import { comments } from './mocks/comments';
 
 store.dispatch(checkAuthorization());
 
@@ -20,8 +18,7 @@ root.render(
   <React.StrictMode>
     <Provider store={store}>
       <ErrorMessage />
-      <App cardsCount={Setting.CardsCount} offers={offers} offer={offer}
-        comments={comments} offersNear={offers}
+      <App cardsCount={Setting.CardsCount} offers={offers}
         NearPlacesCardsCount={Setting.NearPlacesCardsCount}
       />
     </Provider>

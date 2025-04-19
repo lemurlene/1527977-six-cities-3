@@ -15,6 +15,7 @@ type GetOfferProps = {
 
 function Offer({ offer, comments, offersNear, authorizationStatus }: GetOfferProps): JSX.Element {
   const {
+    id,
     title,
     description,
     type,
@@ -111,7 +112,7 @@ function Offer({ offer, comments, offersNear, authorizationStatus }: GetOfferPro
           <Reviews comments={comments} authorizationStatus={authorizationStatus} />
         </div>
       </div>
-      <Map city={offer.city.location} offers={offersMap} selectedOfferId={offer.id} />
+      <Map city={offer.city.location} offers={offersMap} selectedOfferId={id} />
     </section>
   );
 }

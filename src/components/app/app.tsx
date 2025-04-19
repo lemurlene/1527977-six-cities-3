@@ -14,13 +14,13 @@ import { AppProps } from './type';
 import { AppRoute } from '../../const/enum';
 // import { AppRoute, AuthorizationStatus } from '../../const/enum';
 import { useAppSelector, useAppDispatch } from '../../hooks';
-import { selectLoading } from '../../store/selectors/offers';
+import { selectLoadingOffers } from '../../store/selectors/offers';
 import { selectAuthorization } from '../../store/selectors/api';
 
-function App({ offers, cardsCount, offer, comments, offersNear, NearPlacesCardsCount }: AppProps): JSX.Element {
+function App({ offers, cardsCount, NearPlacesCardsCount }: AppProps): JSX.Element {
   const dispatch = useAppDispatch();
   const authorizationStatus = useAppSelector(selectAuthorization);
-  const isOffersLoading = useAppSelector(selectLoading);
+  const isOffersLoading = useAppSelector(selectLoadingOffers);
   // const authorizationStatusUnknown = AuthorizationStatus.Unknown;
 
   useEffect(() => {
@@ -61,7 +61,7 @@ function App({ offers, cardsCount, offer, comments, offersNear, NearPlacesCardsC
                   }
                 />
                 <Route path={AppRoute.Offer}
-                  element={<OfferPage authorizationStatus={authorizationStatus} offer={offer} comments={comments} offersNear={offersNear} NearPlacesCardsCount={NearPlacesCardsCount} />}
+                  element={<OfferPage authorizationStatus={authorizationStatus} NearPlacesCardsCount={NearPlacesCardsCount} />}
                 />
                 <Route path={AppRoute.Error404}
                   element={<NotFoundPage />}

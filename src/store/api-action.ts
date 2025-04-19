@@ -1,23 +1,15 @@
-
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { AxiosInstance } from 'axios';
-import { store } from '.';
 import { setError } from './action';
 import {saveToken, dropToken} from '../services/token';
-import { RootState, AppDispatch, AuthData, UserData } from './type';
-import { CardType } from '../const/type';
+import { AuthData, UserData, CommentType } from './type';
+import { CardType, OfferType, ReviewType } from '../const/type';
 import { APIRoute, TIMEOUT_SHOW_ERROR } from './const';
-
-const createAppAsyncThunk = createAsyncThunk.withTypes<{
-  state: RootState;
-  dispatch: AppDispatch;
-  extra: AxiosInstance;
-}>();
+import { createAppAsyncThunk } from '../hooks';
 
 const fetchOffers = createAppAsyncThunk<CardType[], undefined>(
   'offers/fetchOffers',
-  async(_arg, {extra: api}) => {
-    const {data} = await api.get<CardType[]>(APIRoute.Offers);
+  async (_arg, { extra: api }) => {
+    const { data } = await api.get<CardType[]>(APIRoute.Offers);
     return data;
   }
 );
@@ -49,12 +41,44 @@ const logoutAction = createAppAsyncThunk<void, undefined>(
 
 const clearErrorAction = createAsyncThunk(
   'app/clearError',
-  () => {
-    setTimeout(
-      () => store.dispatch(setError(null)),
-      TIMEOUT_SHOW_ERROR,
-    );
-  },
+  async (_, { dispatch }) => {
+    await new Promise((resolve) => setTimeout(resolve, TIMEOUT_SHOW_ERROR));
+    dispatch(setError(null));
+  }
 );
 
-export { fetchOffers, checkAuthorization, loginAction, logoutAction, clearErrorAction };
+
+const getOfferInfoById = createAppAsyncThunk<OfferType, string>(
+  'offer/getOfferInfo',
+  async (id, { extra: api }) => {
+    const { data } = await api.get<OfferType>(`${APIRoute.Offers}/${id}`);
+    return data;
+  }
+);
+
+const fetchOffersNear = createAppAsyncThunk<CardType[], string>(
+  'offers/fetchNearbyOffers',
+  async (id, { extra: api }) => {
+    const { data } = await api.get<CardType[]>(`${APIRoute.Offers}/${id}/nearby`);
+    return data;
+  }
+);
+
+const fetchOfferComments = createAppAsyncThunk<ReviewType[], string>(
+  'offer/fetchOfferComments',
+  async (id, { extra: api }) => {
+    const { data } = await api.get<ReviewType[]>(`${APIRoute.Comments}/${id}`);
+    return data;
+  }
+);
+
+const postOfferComment = createAppAsyncThunk<ReviewType, CommentType>(
+  'offer/postOfferComment',
+  async ({ id, comment }, { extra: api }) => {
+    const { data } = await api.post<ReviewType>(`${APIRoute.Comments}/${id}`,{ comment: comment.review, rating: +comment.rating });
+    return data;
+  }
+);
+
+export { fetchOffers, checkAuthorization, loginAction, logoutAction, clearErrorAction,
+  getOfferInfoById, fetchOffersNear, fetchOfferComments, postOfferComment };
