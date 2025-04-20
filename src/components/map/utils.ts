@@ -1,12 +1,15 @@
 import { AppRoute } from '../../const/enum';
+import { matchPath } from 'react-router-dom';
 
 export const getState = (pathname: AppRoute) => {
+  const isOfferPage = matchPath(AppRoute.Offer, pathname);
   let rootClassPrefix = '';
 
-  if (pathname === AppRoute.Root) {
-    rootClassPrefix = ' cities';
-  } else if (pathname === AppRoute.Offer) {
+  if (isOfferPage) {
     rootClassPrefix = ' offer';
+  } else {
+    rootClassPrefix = ' cities';
   }
+
   return { rootClassPrefix };
 };

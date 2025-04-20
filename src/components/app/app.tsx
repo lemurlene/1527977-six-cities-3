@@ -17,7 +17,7 @@ import { useAppSelector, useAppDispatch } from '../../hooks';
 import { selectLoadingOffers } from '../../store/selectors/offers';
 import { selectAuthorization } from '../../store/selectors/api';
 
-function App({ offers, cardsCount, NearPlacesCardsCount }: AppProps): JSX.Element {
+function App({ offers, cardsCount, NearPlacesCount }: AppProps): JSX.Element {
   const dispatch = useAppDispatch();
   const authorizationStatus = useAppSelector(selectAuthorization);
   const isOffersLoading = useAppSelector(selectLoadingOffers);
@@ -61,7 +61,7 @@ function App({ offers, cardsCount, NearPlacesCardsCount }: AppProps): JSX.Elemen
                   }
                 />
                 <Route path={AppRoute.Offer}
-                  element={<OfferPage authorizationStatus={authorizationStatus} NearPlacesCardsCount={NearPlacesCardsCount} />}
+                  element={<OfferPage authorizationStatus={authorizationStatus} NearPlacesCount={NearPlacesCount} />}
                 />
                 <Route path={AppRoute.Error404}
                   element={<NotFoundPage />}

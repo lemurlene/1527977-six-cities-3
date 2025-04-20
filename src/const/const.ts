@@ -3,7 +3,7 @@ export const Setting = {
   CardsCount: 5,
   RatingsCoefficient: 20,
   OffersPhotoCount: 6,
-  NearPlacesCardsCount: 3,
+  NearPlacesCount: 3,
 } as const;
 
 export const Cities = {

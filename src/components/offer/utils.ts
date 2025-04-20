@@ -1,20 +1,20 @@
 import { AppRoute } from '../../const/enum';
+import { matchPath } from 'react-router-dom';
 
 export const getState = (pathname: AppRoute) => {
   let placeClassPrefix = '';
   let offerListClass = '';
   let addInfoClass = '';
 
-  if (pathname === AppRoute.Root) {
-    placeClassPrefix = ' cities';
-    offerListClass = ' cities__places-list tabs__content';
-  } else if (pathname === AppRoute.Favorites) {
+  if (pathname === AppRoute.Favorites) {
     placeClassPrefix = ' favorites';
     addInfoClass = ' favorites__card-info';
-  } else if (pathname === AppRoute.Offer) {
+  } else if (matchPath(AppRoute.Offer, pathname)) {
     placeClassPrefix = ' near-places';
     offerListClass = ' near-places__list';
+  } else {
+    placeClassPrefix = ' cities';
+    offerListClass = ' cities__places-list tabs__content';
   }
-
   return { placeClassPrefix, addInfoClass, offerListClass };
 };

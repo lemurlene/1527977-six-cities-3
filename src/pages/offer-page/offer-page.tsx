@@ -16,11 +16,11 @@ import ErrorMessage from '../../components/error-message';
 import { useId } from '../../utils';
 
 type GetOfferProps = {
-  NearPlacesCardsCount: number;
+  NearPlacesCount: number;
   authorizationStatus: AuthorizationEnum;
 }
 
-function OfferPage({ NearPlacesCardsCount, authorizationStatus }: GetOfferProps): JSX.Element {
+function OfferPage({ NearPlacesCount, authorizationStatus }: GetOfferProps): JSX.Element {
   const dispatch = useAppDispatch();
   const offerId = useId();
   const isOfferLoading = useAppSelector(selectOfferLoading);
@@ -71,7 +71,7 @@ function OfferPage({ NearPlacesCardsCount, authorizationStatus }: GetOfferProps)
       <main className="page__main page__main--offer">
         <Offer offer={offer} comments={comments} offersNear={offersNear} authorizationStatus={authorizationStatus} />
         <div className="container">
-          <OffersNear offersNear={offersNear} NearPlacesCardsCount={NearPlacesCardsCount} handleHover={handleHover} />
+          <OffersNear offersNear={offersNear} NearPlacesCount={NearPlacesCount} handleHover={handleHover} />
         </div>
       </main>
     </>

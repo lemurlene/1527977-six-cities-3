@@ -19,7 +19,7 @@ root.render(
     <Provider store={store}>
       <ErrorMessage />
       <App cardsCount={Setting.CardsCount} offers={offers}
-        NearPlacesCardsCount={Setting.NearPlacesCardsCount}
+        NearPlacesCount={Setting.NearPlacesCount}
       />
     </Provider>
   </React.StrictMode>
