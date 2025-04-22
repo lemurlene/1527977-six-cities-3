@@ -1,6 +1,5 @@
 export const Setting = {
   DefaultCity: 'Paris',
-  CardsCount: 5,
   RatingsCoefficient: 20,
   OffersPhotoCount: 6,
   NearPlacesCount: 3,
@@ -37,9 +36,9 @@ export const CityLocation = {
     zoom: 13
   },
   Amsterdam: {
-    latitude: 52.35514938496378,
-    longitude: 4.673877537499948,
-    zoom: 8
+    latitude: 52.37454,
+    longitude: 4.897976,
+    zoom: 13
   },
   Hamburg: {
     latitude: 53.550341,

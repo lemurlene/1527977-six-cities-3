@@ -18,7 +18,8 @@ root.render(
   <React.StrictMode>
     <Provider store={store}>
       <ErrorMessage />
-      <App cardsCount={Setting.CardsCount} offers={offers}
+      <App
+        offers={offers}
         NearPlacesCount={Setting.NearPlacesCount}
       />
     </Provider>

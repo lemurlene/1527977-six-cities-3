@@ -1,6 +1,6 @@
-import Card from './card';
+import CardMemo from './card';
 import Offer from './offer';
 import OffersNear from './offers-near';
-import OfferList from './offer-list';
+import OfferListMemo from './offer-list';
 
-export { Card, Offer, OffersNear, OfferList };
+export { CardMemo, Offer, OffersNear, OfferListMemo };

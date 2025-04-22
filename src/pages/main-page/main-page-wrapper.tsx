@@ -6,14 +6,10 @@ import { Cities } from '../../const/const';
 import { CitiesEnum } from '../../const/type';
 import MainPage from './main-page';
 
-type MainPageWrapperProps = {
-  cardsCount: number;
-}
-
 const isValidCity = (city: string): city is CitiesEnum =>
   Object.values(Cities).includes(city as CitiesEnum);
 
-function MainPageWrapper({ cardsCount }: MainPageWrapperProps) {
+function MainPageWrapper() {
   const [searchParams, setSearchParams] = useSearchParams();
   const dispatch = useAppDispatch();
 
@@ -29,7 +25,7 @@ function MainPageWrapper({ cardsCount }: MainPageWrapperProps) {
     }
   }, [searchParams, dispatch, setSearchParams]);
 
-  return <MainPage cardsCount={cardsCount} />;
+  return <MainPage />;
 }
 
 export default MainPageWrapper;

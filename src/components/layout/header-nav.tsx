@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { memo, useCallback } from 'react';
 import { AuthorizationEnum } from '../../const/type';
 import { AppRoute, AuthorizationStatus } from '../../const/enum';
 import { logoutAction } from '../../store/api-action';
@@ -20,11 +21,11 @@ function HeaderNav({ authorizationStatus}: HeaderProps): JSX.Element {
   }
   const dispatch = useAppDispatch();
 
-  const handleLogout = () => {
+  const handleLogout = useCallback(() => {
     if (isAuthenticated) {
       dispatch(logoutAction());
     }
-  };
+  }, [dispatch, isAuthenticated]);
 
   const FAVORETES_COUNT = 0;
 
@@ -60,4 +61,6 @@ function HeaderNav({ authorizationStatus}: HeaderProps): JSX.Element {
   );
 }
 
-export default HeaderNav;
+const HeaderNavMemo = memo(HeaderNav);
+
+export default HeaderNavMemo;

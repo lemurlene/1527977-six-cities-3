@@ -1,9 +1,11 @@
 import { Link, useLocation } from 'react-router-dom';
+import { memo, useCallback, useMemo } from 'react';
 import cn from 'classnames';
 import { getState } from './utils';
 import { AppRoute } from '../../const/enum';
 import { CardType } from '../../const/type';
 import RatingStars from '../rating-stars';
+import { DefaultCardSize } from './const';
 
 type CardProps = {
   card: CardType;
@@ -14,7 +16,7 @@ type CardProps = {
   };
 }
 
-function Card({ card, handleHover, size = { width: 260, height: 200 } }: CardProps): JSX.Element {
+function Card({ card, handleHover, size = DefaultCardSize }: CardProps): JSX.Element {
   const {
     id,
     title,
@@ -27,39 +29,57 @@ function Card({ card, handleHover, size = { width: 260, height: 200 } }: CardPro
   } = card;
   const { pathname } = useLocation();
   const { placeClassPrefix, addInfoClass } = getState(pathname as AppRoute);
+
+  const handleMouseEnter = useCallback(() => {
+    handleHover(id);
+  }, [handleHover, id]);
+
+  const handleMouseLeave = useCallback(() => {
+    handleHover(null);
+  }, [handleHover]);
+
+  const cardClasses = useMemo(() => ({
+    article: `${placeClassPrefix}__card place-card`,
+    imageWrapper: `${placeClassPrefix}__image-wrapper place-card__image-wrapper`,
+    info: `place-card__info ${addInfoClass}`,
+    button: cn(
+      'place-card__bookmark-button button',
+      { 'place-card__bookmark-button--active': isFavorite }
+    )
+  }), [placeClassPrefix, addInfoClass, isFavorite]);
+
   return (
-    <Link to={`/offer/${id}`} className={`${placeClassPrefix}__card place-card`}>
+    <Link to={`/offer/${id}`} className={cardClasses.article}>
       <article
-        className={`${placeClassPrefix}__card place-card`}
-        onMouseEnter={() => handleHover(id)}
-        onMouseLeave={() => handleHover(null)}
+        className={cardClasses.article}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
       >
         {isPremium && (
           <div className="place-card__mark">
             <span>Premium</span>
           </div>
         )}
-        <div className={`${placeClassPrefix}__image-wrapper place-card__image-wrapper`}>
+        <div className={cardClasses.imageWrapper}>
           <img
             className="place-card__image"
             src={previewImage}
             width={size.width}
             height={size.height}
             alt="Place image"
+            loading="lazy"
           />
         </div>
-        <div className={`place-card__info ${addInfoClass}`}>
+        <div className={cardClasses.info}>
           <div className="place-card__price-wrapper">
             <div className="place-card__price">
               <b className="place-card__price-value">&euro;{price}</b>
               <span className="place-card__price-text">&#47;&nbsp;night</span>
             </div>
             <button
-              className={cn(
-                'place-card__bookmark-button button',
-                { 'place-card__bookmark-button--active': isFavorite }
-              )}
+              className={cardClasses.button}
               type="button"
+              aria-label={isFavorite ? 'In bookmarks' : 'To bookmarks'}
             >
               <svg className="place-card__bookmark-icon" width="18" height="19">
                 <use xlinkHref="#icon-bookmark"></use>
@@ -79,4 +99,6 @@ function Card({ card, handleHover, size = { width: 260, height: 200 } }: CardPro
   );
 }
 
-export default Card;
+const CardMemo = memo(Card);
+
+export default CardMemo;

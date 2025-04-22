@@ -1,15 +1,16 @@
 import { useLocation } from 'react-router-dom';
+import { memo } from 'react';
 import { useAppSelector } from '../../hooks';
 import { selectSort } from '../../store/selectors/offers';
 import { getState } from './utils';
 import { AppRoute } from '../../const/enum';
-import Card from './card';
+import CardMemo from './card';
 import { CardType } from '../../const/type';
 import { sortOffers } from '../sort/utils';
 
 
 type GetCardsProps = {
-  cardsCount: number;
+  cardsCount?: number;
   offers: CardType[];
   handleHover: (id: string | null) => void;
 }
@@ -23,7 +24,7 @@ function OfferList({ offers, cardsCount, handleHover }: GetCardsProps): JSX.Elem
   return (
     <div className={`${offerListClass} places__list`}>
       {sortedOffers.slice(0, cardsCount).map((card) => (
-        <Card
+        <CardMemo
           key={card.id}
           card={card}
           handleHover={handleHover}
@@ -32,6 +33,6 @@ function OfferList({ offers, cardsCount, handleHover }: GetCardsProps): JSX.Elem
   );
 }
 
-export default OfferList;
+const OfferListMemo = memo(OfferList);
 
-
+export default OfferListMemo;

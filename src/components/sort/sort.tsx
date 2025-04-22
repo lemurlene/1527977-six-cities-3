@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, memo, useCallback } from 'react';
 import cn from 'classnames';
 import { useAppSelector } from '../../hooks';
 import { selectSort } from '../../store/selectors/offers';
@@ -30,9 +30,9 @@ function Sort(): JSX.Element {
       sortType={option}
     />));
 
-  const handleSortTypeChange = () => {
+  const handleSortTypeChange = useCallback(() => {
     setSortingOpen((lastOpened) => !lastOpened);
-  };
+  }, []);
 
   return (
     <form className="places__sorting" action="#" method="get">
@@ -50,7 +50,7 @@ function Sort(): JSX.Element {
       </span>
       <ul
         className={cn('places__options places__options--custom',
-          {'places__options--opened': isSortingOpen})}
+          { 'places__options--opened': isSortingOpen })}
       >
         {sortOption}
       </ul>
@@ -58,4 +58,6 @@ function Sort(): JSX.Element {
   );
 }
 
-export default Sort;
+const SortMemo = memo(Sort);
+
+export default SortMemo;

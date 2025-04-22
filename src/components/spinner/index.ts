@@ -1,2 +1,2 @@
-import Spinner from './spinner';
-export default Spinner;
+import SpinnerMemo from './spinner';
+export default SpinnerMemo;

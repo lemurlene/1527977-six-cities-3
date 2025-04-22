@@ -1,15 +1,14 @@
 import { ChangeEvent } from 'react';
-import { selectCommentSending } from '../../store/selectors/offer';
-import { useAppSelector } from '../../hooks';
 
 type InputProps = {
   ratingValue: number;
   title: string;
   onChange: (evt: ChangeEvent<HTMLInputElement>) => void;
+  isDisabled: boolean;
+  checked: boolean;
 }
 
-function InputRating({ ratingValue, title, onChange }: InputProps): JSX.Element {
-  const isCommentSending = useAppSelector(selectCommentSending);
+function InputRating({ ratingValue, title, onChange, isDisabled, checked }: InputProps): JSX.Element {
   return (
     <>
       <input
@@ -19,7 +18,8 @@ function InputRating({ ratingValue, title, onChange }: InputProps): JSX.Element 
         id={`${ratingValue}-stars`}
         type="radio"
         onChange={onChange}
-        disabled={isCommentSending}
+        disabled={isDisabled}
+        checked={checked}
       />
       <label
         htmlFor={`${ratingValue}-stars`}

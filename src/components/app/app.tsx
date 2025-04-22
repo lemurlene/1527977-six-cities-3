@@ -8,7 +8,7 @@ import FavoritesPage from '../../pages/favorites-page';
 import OfferPage from '../../pages/offer-page';
 import NotFoundPage from '../../pages/not-found-page';
 import LoadingPage from '../../pages/loading-page';
-import PrivateRoute from '../private-route';
+import PrivateRouteMemo from '../private-route';
 import { fetchOffers, checkAuthorization } from '../../store/api-action';
 import { AppProps } from './type';
 import { AppRoute } from '../../const/enum';
@@ -17,7 +17,7 @@ import { useAppSelector, useAppDispatch } from '../../hooks';
 import { selectLoadingOffers } from '../../store/selectors/offers';
 import { selectAuthorization } from '../../store/selectors/api';
 
-function App({ offers, cardsCount, NearPlacesCount }: AppProps): JSX.Element {
+function App({ offers, NearPlacesCount }: AppProps): JSX.Element {
   const dispatch = useAppDispatch();
   const authorizationStatus = useAppSelector(selectAuthorization);
   const isOffersLoading = useAppSelector(selectLoadingOffers);
@@ -44,20 +44,20 @@ function App({ offers, cardsCount, NearPlacesCount }: AppProps): JSX.Element {
               :
               <Route path={AppRoute.Root} element={<Layout authorizationStatus={authorizationStatus} />}>
                 <Route index
-                  element={<MainPageWrapper cardsCount={cardsCount} />}
+                  element={<MainPageWrapper />}
                 />
                 <Route path={AppRoute.Login}
                   element={
-                    <PrivateRoute authorizationStatus={authorizationStatus} isReverse>
+                    <PrivateRouteMemo authorizationStatus={authorizationStatus} isReverse>
                       <LoginPage />
-                    </PrivateRoute>
+                    </PrivateRouteMemo>
                   }
                 />
                 <Route path={AppRoute.Favorites}
                   element={
-                    <PrivateRoute authorizationStatus={authorizationStatus}>
+                    <PrivateRouteMemo authorizationStatus={authorizationStatus}>
                       <FavoritesPage offers={offers} />
-                    </PrivateRoute>
+                    </PrivateRouteMemo>
                   }
                 />
                 <Route path={AppRoute.Offer}

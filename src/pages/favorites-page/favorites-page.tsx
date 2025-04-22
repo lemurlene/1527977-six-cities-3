@@ -4,8 +4,9 @@ import { Link } from 'react-router-dom';
 import { Nullable } from 'vitest';
 import cn from 'classnames';
 import FavoritesEmpty from './favorites-empty';
-import { Card } from '../../components/offer';
+import { CardMemo } from '../../components/offer';
 import { CardType } from '../../const/type';
+import { FavoritesCardSize } from './const';
 
 type GetCardsProps = {
   offers: CardType[];
@@ -54,7 +55,7 @@ function FavoritesPage({ offers }: GetCardsProps): JSX.Element {
                       </div>
                       <div className="favorites__places">
                         {cityOffers.map((card) => (
-                          <Card key={card.id} card={card} handleHover={handleHover} size={{ width: 150, height: 110 }} />
+                          <CardMemo key={card.id} card={card} handleHover={handleHover} size={FavoritesCardSize} />
                         ))}
                       </div>
                     </li>

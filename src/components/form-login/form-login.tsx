@@ -1,4 +1,4 @@
-import { FormEvent, useRef } from 'react';
+import { FormEvent, useRef, memo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { loginAction } from '../../store/api-action';
 import { useAppDispatch } from '../../hooks';
@@ -47,4 +47,6 @@ function FormLogin(): JSX.Element {
   );
 }
 
-export default FormLogin;
+const FormLoginMemo = memo(FormLogin);
+
+export default FormLoginMemo;

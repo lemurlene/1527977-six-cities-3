@@ -1,2 +1,2 @@
-import Tabs from './tabs';
-export default Tabs;
+import TabsMemo from './tabs';
+export default TabsMemo;

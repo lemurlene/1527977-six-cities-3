@@ -1,4 +1,4 @@
-import { OfferList } from '../../components/offer';
+import { OfferListMemo } from '../../components/offer';
 import { CardType } from '../../const/type';
 
 type GetPlacesProps = {
@@ -11,7 +11,7 @@ function OffersNear({ offersNear, NearPlacesCount, handleHover }: GetPlacesProps
   return (
     <section className="near-places places">
       <h2 className="near-places__title">Other places in the neighbourhood</h2>
-      <OfferList offers={offersNear} cardsCount={NearPlacesCount} handleHover={handleHover} />
+      <OfferListMemo offers={offersNear} cardsCount={NearPlacesCount} handleHover={handleHover} />
     </section>
   );
 }

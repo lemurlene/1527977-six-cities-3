@@ -1,4 +1,6 @@
+import { memo } from 'react';
 import { Hourglass } from 'react-loader-spinner';
+
 function Spinner() {
   return (
     <p>
@@ -15,4 +17,6 @@ function Spinner() {
   );
 }
 
-export default Spinner;
+const SpinnerMemo = memo(Spinner);
+
+export default SpinnerMemo;

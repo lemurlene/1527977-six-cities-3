@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { getRatingStars } from './utils';
 
 type GetRatingStarsProps = {
@@ -21,4 +22,6 @@ function RatingStars({ rating, classPrefix, isOffer }: GetRatingStarsProps): JSX
   );
 }
 
-export default RatingStars;
+const RatingStarsMemo = memo(RatingStars);
+
+export default RatingStarsMemo;
