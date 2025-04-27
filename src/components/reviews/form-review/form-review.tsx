@@ -5,7 +5,7 @@ import ButtonSubmit from './button-submit';
 import { FormReviewFields, ReviewSize } from './const';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { postOfferComment } from '../../../store/api-action';
-import { selectCommentSending } from '../../../store/selectors/offer';
+import { selectCommentStatus } from '../../../store/reviews/reviews.selector';
 import { useId } from '../../../utils';
 import ErrorMessage from '../../error-message';
 
@@ -16,7 +16,7 @@ const initialState = {
 
 function FormReview(): JSX.Element {
   const dispatch = useAppDispatch();
-  const isCommentSending = useAppSelector(selectCommentSending);
+  const isCommentSending = useAppSelector(selectCommentStatus);
   const offerId = useId();
   const [reviewData, setRewiew] = useState(initialState);
   const [, setSubmitError] = useState<string | null>(null);
@@ -59,7 +59,7 @@ function FormReview(): JSX.Element {
             setRewiew(initialState);
           }
         })
-        .catch((error: Error) => { // Явно указываем тип Error
+        .catch((error: Error) => {
           setSubmitError(
             error instanceof Error
               ? error.message

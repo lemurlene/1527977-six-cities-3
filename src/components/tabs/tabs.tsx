@@ -1,8 +1,8 @@
 import { NavLink, useSearchParams } from 'react-router-dom';
 import { MouseEvent, memo, useCallback } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { changeCity } from '../../store/action';
-import { selectCity } from '../../store/selectors/offers';
+import { changeCity } from '../../store/city/city.slice';
+import { selectCurrentCity } from '../../store/city/city.selector';
 import { Cities } from '../../const/const';
 import { CitiesEnum } from '../../const/type';
 import { getClassForNavLink } from './utils';
@@ -10,7 +10,7 @@ import { getClassForNavLink } from './utils';
 const Tabs = (): JSX.Element => {
   const [searchParams, setSearchParams] = useSearchParams();
   const dispatch = useAppDispatch();
-  const currentCity = useAppSelector(selectCity);
+  const currentCity = useAppSelector(selectCurrentCity);
 
   const handleCityChange = useCallback(
     (city: CitiesEnum) => (evt: MouseEvent<HTMLAnchorElement>) => {

@@ -1,5 +1,5 @@
-import cn from 'classnames';
 import { OfferType, ReviewType, CardType } from '../../const/type';
+import BookmarkMemo from '../bookmark';
 import RatingStars from '../rating-stars';
 import Reviews from '../reviews';
 import Map from '../map';
@@ -36,7 +36,6 @@ function Offer({ offer, comments, offersNear, authorizationStatus }: GetOfferPro
 
   const offersMap = [offer, ...offersNear.slice(0, Setting.NearPlacesCount)];
 
-
   return (
     <section className="offer">
       <div className="offer__gallery-container container">
@@ -57,21 +56,7 @@ function Offer({ offer, comments, offersNear, authorizationStatus }: GetOfferPro
           )}
           <div className="offer__name-wrapper">
             <h1 className="offer__name">{title}</h1>
-            <button
-              className={cn(
-                'offer__bookmark-button button',
-                { 'offer__bookmark-button--active': isFavorite }
-              )}
-              type="button"
-            >
-              <svg className="offer__bookmark-icon" width="31" height="33">
-                <use xlinkHref="#icon-bookmark"></use>
-              </svg>
-              <span className="visually-hidden">
-                {isFavorite && 'In bookmarks'}
-                {!isFavorite && 'To bookmarks'}
-              </span>
-            </button>
+            <BookmarkMemo isOffer offerId={id} isFavorite={isFavorite}/>
           </div>
           <RatingStars rating={rating} classPrefix='offer' isOffer />
           <ul className="offer__features">

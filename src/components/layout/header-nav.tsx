@@ -3,31 +3,23 @@ import { memo, useCallback } from 'react';
 import { AuthorizationEnum } from '../../const/type';
 import { AppRoute, AuthorizationStatus } from '../../const/enum';
 import { logoutAction } from '../../store/api-action';
-import { useAppDispatch, useAppSelector } from '../../hooks';
-import { selectUserInfo } from '../../store/selectors/api';
+import { useAppDispatch } from '../../hooks';
+import UserInfoMemo from './user-info';
 
 type HeaderProps = {
   authorizationStatus: AuthorizationEnum;
 }
 
 function HeaderNav({ authorizationStatus}: HeaderProps): JSX.Element {
+  const dispatch = useAppDispatch();
   const isAuthenticated = authorizationStatus === AuthorizationStatus.Auth;
   const targetRoute = isAuthenticated ? AppRoute.Favorites : AppRoute.Login;
-
-  const userInfo = useAppSelector(selectUserInfo);
-  let email = '';
-  if(userInfo) {
-    email = userInfo.email;
-  }
-  const dispatch = useAppDispatch();
 
   const handleLogout = useCallback(() => {
     if (isAuthenticated) {
       dispatch(logoutAction());
     }
   }, [dispatch, isAuthenticated]);
-
-  const FAVORETES_COUNT = 0;
 
   return (
     <nav className="header__nav">
@@ -36,12 +28,7 @@ function HeaderNav({ authorizationStatus}: HeaderProps): JSX.Element {
           <Link className="header__nav-link header__nav-link--profile" to={targetRoute}>
             <div className="header__avatar-wrapper user__avatar-wrapper">
             </div>
-            {isAuthenticated && (
-              <>
-                <span className="header__user-name user__name">{email}</span>
-                <span className="header__favorite-count">{FAVORETES_COUNT}</span>
-              </>
-            )}
+            {isAuthenticated && <UserInfoMemo/>}
             {!isAuthenticated && <span className="header__login">Sign in</span>}
           </Link>
         </li>

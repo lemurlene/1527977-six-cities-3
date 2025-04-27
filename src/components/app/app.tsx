@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { Route, BrowserRouter, Routes } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import Layout from '../layout';
+import ErrorServer from '../error-server';
 import MainPageWrapper from '../../pages/main-page';
 import LoginPage from '../../pages/login-page';
 import FavoritesPage from '../../pages/favorites-page';
@@ -9,39 +10,50 @@ import OfferPage from '../../pages/offer-page';
 import NotFoundPage from '../../pages/not-found-page';
 import LoadingPage from '../../pages/loading-page';
 import PrivateRouteMemo from '../private-route';
-import { fetchOffers, checkAuthorization } from '../../store/api-action';
-import { AppProps } from './type';
+import { fetchOffers, checkAuthorization, fetchFavoriteOffers } from '../../store/api-action';
 import { AppRoute } from '../../const/enum';
-// import { AppRoute, AuthorizationStatus } from '../../const/enum';
 import { useAppSelector, useAppDispatch } from '../../hooks';
-import { selectLoadingOffers } from '../../store/selectors/offers';
-import { selectAuthorization } from '../../store/selectors/api';
+import { setErrorConnectionOffers } from '../../store/offers/offers.slice';
+import { selectErrorConnectionOffers } from '../../store/offers/offers.selector';
+import { selectAuthorization } from '../../store/user/user.selector';
+import IsAppLoading from './utils';
 
-function App({ offers, NearPlacesCount }: AppProps): JSX.Element {
+function App(): JSX.Element {
   const dispatch = useAppDispatch();
   const authorizationStatus = useAppSelector(selectAuthorization);
-  const isOffersLoading = useAppSelector(selectLoadingOffers);
-  // const authorizationStatusUnknown = AuthorizationStatus.Unknown;
+  const isServerError = useAppSelector(selectErrorConnectionOffers);
+  const isAppLoading = IsAppLoading();
 
   useEffect(() => {
-    dispatch(fetchOffers());
-    dispatch(checkAuthorization());
+    dispatch(fetchOffers())
+      .unwrap()
+      .then(() => {
+        dispatch(setErrorConnectionOffers(false));
+        dispatch(checkAuthorization())
+          .then((response) => {
+            if (response.meta.requestStatus === 'fulfilled') {
+              dispatch(fetchFavoriteOffers());
+            }
+          });
+      })
+      .catch(() => {
+        dispatch(setErrorConnectionOffers(true));
+      });
   }, [dispatch]);
 
   return (
     <HelmetProvider>
       <BrowserRouter>
-        <Routes>
-          {
-            (isOffersLoading)
-            // (isOffersLoading || authorizationStatusUnknown)
-              ?
+        {isServerError ? (
+          <ErrorServer mainPage />
+        ) : (
+          <Routes>
+            {isAppLoading ? (
               <Route path={AppRoute.Root} element={<Layout authorizationStatus={authorizationStatus} />}>
                 <Route index
                   element={<LoadingPage />}
                 />
-              </Route>
-              :
+              </Route>) : (
               <Route path={AppRoute.Root} element={<Layout authorizationStatus={authorizationStatus} />}>
                 <Route index
                   element={<MainPageWrapper />}
@@ -56,19 +68,20 @@ function App({ offers, NearPlacesCount }: AppProps): JSX.Element {
                 <Route path={AppRoute.Favorites}
                   element={
                     <PrivateRouteMemo authorizationStatus={authorizationStatus}>
-                      <FavoritesPage offers={offers} />
+                      <FavoritesPage />
                     </PrivateRouteMemo>
                   }
                 />
                 <Route path={AppRoute.Offer}
-                  element={<OfferPage authorizationStatus={authorizationStatus} NearPlacesCount={NearPlacesCount} />}
+                  element={<OfferPage authorizationStatus={authorizationStatus} />}
                 />
                 <Route path={AppRoute.Error404}
                   element={<NotFoundPage />}
                 />
               </Route>
-          }
-        </Routes>
+            )}
+          </Routes>
+        )}
       </BrowserRouter>
     </HelmetProvider>
   );

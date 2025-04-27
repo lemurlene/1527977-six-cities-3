@@ -1,7 +1,7 @@
 
 import { useAppSelector } from '../../hooks';
-import { selectError } from '../../store/selectors/api';
-import './error-message.css';
+import { selectError } from '../../store/error/error.selector';
+import './style.css';
 
 function ErrorMessage(): JSX.Element | null {
   const error = useAppSelector(selectError);
@@ -9,7 +9,6 @@ function ErrorMessage(): JSX.Element | null {
   return (error)
     ? <div className='error-message'>{error}</div>
     : null;
-
 }
 
 export default ErrorMessage;

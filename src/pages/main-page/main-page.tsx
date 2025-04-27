@@ -4,7 +4,8 @@ import { useSearchParams } from 'react-router-dom';
 import { Nullable } from 'vitest';
 import cn from 'classnames';
 import { useAppSelector } from '../../hooks';
-import { selectOffers, selectCity } from '../../store/selectors/offers';
+import { selectOffers } from '../../store/offers/offers.selector';
+import { selectCurrentCity } from '../../store/city/city.selector';
 import TabsMemo from '../../components/tabs';
 import MainEmpty from './main-empty';
 import SortMemo from '../../components/sort';
@@ -14,7 +15,7 @@ import { CityLocation } from '../../const/const';
 
 function MainPage(): JSX.Element {
   const offersAll = useAppSelector(selectOffers);
-  const currentCityName = useAppSelector(selectCity);
+  const currentCityName = useAppSelector(selectCurrentCity);
 
   const currentOffers = useMemo(
     () => offersAll.filter((offer) => offer.city.name === currentCityName),
@@ -55,7 +56,6 @@ function MainPage(): JSX.Element {
     () => cn('cities__places-container container', { 'cities__places-container--empty': isEmpty }),
     [isEmpty]
   );
-
 
   return (
     <>

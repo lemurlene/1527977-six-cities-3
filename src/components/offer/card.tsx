@@ -1,6 +1,6 @@
 import { Link, useLocation } from 'react-router-dom';
 import { memo, useCallback, useMemo } from 'react';
-import cn from 'classnames';
+import BookmarkMemo from '../bookmark';
 import { getState } from './utils';
 import { AppRoute } from '../../const/enum';
 import { CardType } from '../../const/type';
@@ -9,7 +9,7 @@ import { DefaultCardSize } from './const';
 
 type CardProps = {
   card: CardType;
-  handleHover: (id: string | null) => void;
+  handleHover?: (id: string | null) => void;
   size?: {
     width: number;
     height: number;
@@ -31,29 +31,31 @@ function Card({ card, handleHover, size = DefaultCardSize }: CardProps): JSX.Ele
   const { placeClassPrefix, addInfoClass } = getState(pathname as AppRoute);
 
   const handleMouseEnter = useCallback(() => {
-    handleHover(id);
+    handleHover?.(id);
   }, [handleHover, id]);
 
   const handleMouseLeave = useCallback(() => {
-    handleHover(null);
+    handleHover?.(null);
   }, [handleHover]);
+
+  const eventHandlers = useMemo(() => (
+    handleHover ? {
+      onMouseEnter: handleMouseEnter,
+      onMouseLeave: handleMouseLeave
+    } : {}
+  ), [handleHover, handleMouseEnter, handleMouseLeave]);
 
   const cardClasses = useMemo(() => ({
     article: `${placeClassPrefix}__card place-card`,
     imageWrapper: `${placeClassPrefix}__image-wrapper place-card__image-wrapper`,
     info: `place-card__info ${addInfoClass}`,
-    button: cn(
-      'place-card__bookmark-button button',
-      { 'place-card__bookmark-button--active': isFavorite }
-    )
-  }), [placeClassPrefix, addInfoClass, isFavorite]);
+  }), [placeClassPrefix, addInfoClass]);
 
   return (
     <Link to={`/offer/${id}`} className={cardClasses.article}>
       <article
         className={cardClasses.article}
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
+        {...eventHandlers}
       >
         {isPremium && (
           <div className="place-card__mark">
@@ -76,19 +78,7 @@ function Card({ card, handleHover, size = DefaultCardSize }: CardProps): JSX.Ele
               <b className="place-card__price-value">&euro;{price}</b>
               <span className="place-card__price-text">&#47;&nbsp;night</span>
             </div>
-            <button
-              className={cardClasses.button}
-              type="button"
-              aria-label={isFavorite ? 'In bookmarks' : 'To bookmarks'}
-            >
-              <svg className="place-card__bookmark-icon" width="18" height="19">
-                <use xlinkHref="#icon-bookmark"></use>
-              </svg>
-              <span className="visually-hidden">
-                {isFavorite && 'In bookmarks'}
-                {!isFavorite && 'To bookmarks'}
-              </span>
-            </button>
+            <BookmarkMemo offerId={id} isFavorite={isFavorite}/>
           </div>
           <RatingStars rating={rating} classPrefix='place-card' />
           <h2 className="place-card__name">{title}</h2>

@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useAppDispatch } from '../../hooks';
-import { changeCity } from '../../store/action';
-import { Cities } from '../../const/const';
+import { changeCity } from '../../store/city/city.slice';
+import { Cities, Setting } from '../../const/const';
 import { CitiesEnum } from '../../const/type';
 import MainPage from './main-page';
 
@@ -19,7 +19,7 @@ function MainPageWrapper() {
     if (cityFromUrl && isValidCity(cityFromUrl)) {
       dispatch(changeCity(cityFromUrl));
     } else if (!cityFromUrl) {
-      const defaultCity: CitiesEnum = 'Paris';
+      const defaultCity: CitiesEnum = Setting.DefaultCity;
       dispatch(changeCity(defaultCity));
       setSearchParams({ city: defaultCity });
     }

@@ -1,6 +1,6 @@
 import cn from 'classnames';
 import { useAppDispatch } from '../../hooks';
-import { changeSort } from '../../store/action';
+import { changeSort } from '../../store/sort/sort.slice';
 import { SortType } from './type';
 
 type SortOptionProps = {

@@ -1,14 +1,14 @@
 import { useEffect, useRef, useState, memo, useCallback } from 'react';
 import cn from 'classnames';
 import { useAppSelector } from '../../hooks';
-import { selectSort } from '../../store/selectors/offers';
+import { selectSortListType } from '../../store/sort/sort.selector';
 import SortOption from './sort-option';
 import { SortTypes } from './const';
 
 function Sort(): JSX.Element {
   const sortRef = useRef<HTMLElement>(null);
   const [isSortingOpen, setSortingOpen] = useState(false);
-  const currentSortType = useAppSelector(selectSort);
+  const currentSortType = useAppSelector(selectSortListType);
 
   useEffect(() => {
     const handleClickSort = (evt: MouseEvent) => {

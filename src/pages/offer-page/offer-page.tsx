@@ -1,61 +1,89 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useCallback } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { Nullable } from 'vitest';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { selectOffer, selectOfferLoading, selectOffersNear,
-  selectOffersNearLoading, selectOffersCommentsLoading,
-  selectOffersComments } from '../../store/selectors/offer';
-import { selectErrorConnection } from '../../store/selectors/api';
+import { selectOffer, selectOfferLoading, selectErrorConnection } from '../../store/offer/offer.selector';
+import { selectOffersNear, selectOffersNearLoading } from '../../store/offers-near/offers-near.selector';
+import { selectCommentsOffersStatus, selectOffersComments } from '../../store/reviews/reviews.selector';
 import { Offer, OffersNear } from '../../components/offer';
 import { AuthorizationEnum } from '../../const/type';
 import { getOfferInfoById, fetchOffersNear, fetchOfferComments } from '../../store/api-action';
-import { setErrorConnection } from '../../store/action';
+import { setErrorConnectionStatusOffer } from '../../store/offer/offer.slice';
 import LoadingPage from '../loading-page/loading-page';
 import NotFoundPage from '../not-found-page/not-found-page';
-import ErrorMessage from '../../components/error-message';
+import ErrorServer from '../../components/error-server';
 import { useId } from '../../utils';
 
-type GetOfferProps = {
-  NearPlacesCount: number;
+type OfferPageProps = {
   authorizationStatus: AuthorizationEnum;
 }
 
-function OfferPage({ NearPlacesCount, authorizationStatus }: GetOfferProps): JSX.Element {
+function OfferPage({ authorizationStatus }: OfferPageProps): JSX.Element {
   const dispatch = useAppDispatch();
   const offerId = useId();
-  const isOfferLoading = useAppSelector(selectOfferLoading);
-  const offer = useAppSelector(selectOffer);
-  const isNearbyOffersLoading = useAppSelector(selectOffersNearLoading);
-  const offersNear = useAppSelector(selectOffersNear);
-  const isOffersCommentsLoading = useAppSelector(selectOffersCommentsLoading);
-  const comments = useAppSelector(selectOffersComments);
-  const errorConnectionStatus = useAppSelector(selectErrorConnection);
 
-  const [, setActiveCardId] = useState<Nullable<string>>(null);
-  const handleHover = (id: string | null) => {
-    setActiveCardId(id || null);
-  };
+  const [offer, isOfferLoading, errorConnectionStatus] = useAppSelector((state) => [
+    selectOffer(state),
+    selectOfferLoading(state),
+    selectErrorConnection(state)
+  ]);
 
-  useEffect(() => {
+  const [offersNear, isOffersNearLoading] = useAppSelector((state) => [
+    selectOffersNear(state),
+    selectOffersNearLoading(state)
+  ]);
+
+  const [comments, isOffersCommentsLoading] = useAppSelector((state) => [
+    selectOffersComments(state),
+    selectCommentsOffersStatus(state)
+  ]);
+
+  // useEffect(() => {
+  //   if (!offerId) {
+  //     return;
+  //   }
+  //   dispatch(getOfferInfoById(offerId))
+  //     .unwrap()
+  //     .then(() => {
+  //       dispatch(fetchOffersNear(offerId));
+  //       dispatch(fetchOfferComments(offerId));
+  //     })
+  //     .catch(() => {
+  //       dispatch(setErrorConnectionStatusOffer(true));
+  //     });
+  //   return () => {
+  //     dispatch(setErrorConnectionStatusOffer(false));
+  //   };
+  // }, [dispatch, offerId]);
+
+
+  const loadOfferData = useCallback(async () => {
     if (!offerId) {
       return;
     }
-    dispatch(getOfferInfoById(offerId))
-      .unwrap()
-      .then(() => {
-        dispatch(fetchOffersNear(offerId));
-        dispatch(fetchOfferComments(offerId));
-      })
-      .catch(() => {
-        dispatch(setErrorConnection(true));
-      });
+
+    try {
+      await dispatch(getOfferInfoById(offerId)).unwrap();
+      await Promise.all([
+        dispatch(fetchOffersNear(offerId)),
+        dispatch(fetchOfferComments(offerId))
+      ]);
+    } catch {
+      dispatch(setErrorConnectionStatusOffer(true));
+    }
   }, [dispatch, offerId]);
 
-  if (errorConnectionStatus) {
-    return <ErrorMessage />;
+  useEffect(() => {
+    loadOfferData();
+    return () => {
+      dispatch(setErrorConnectionStatusOffer(false));
+    };
+  }, [loadOfferData, dispatch]);
+
+  if (errorConnectionStatus && offer) {
+    return <ErrorServer />;
   }
 
-  if (isOfferLoading || isNearbyOffersLoading || isOffersCommentsLoading) {
+  if (isOfferLoading || isOffersNearLoading || isOffersCommentsLoading) {
     return <LoadingPage />;
   }
 
@@ -71,7 +99,7 @@ function OfferPage({ NearPlacesCount, authorizationStatus }: GetOfferProps): JSX
       <main className="page__main page__main--offer">
         <Offer offer={offer} comments={comments} offersNear={offersNear} authorizationStatus={authorizationStatus} />
         <div className="container">
-          <OffersNear offersNear={offersNear} NearPlacesCount={NearPlacesCount} handleHover={handleHover} />
+          <OffersNear offersNear={offersNear} />
         </div>
       </main>
     </>

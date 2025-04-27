@@ -1,5 +1,7 @@
 import { FormEvent, useRef, memo } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { selectLoadingLogin } from '../../store/user/user.selector';
 import { loginAction } from '../../store/api-action';
 import { useAppDispatch } from '../../hooks';
 import Input from './input';
@@ -9,6 +11,7 @@ import { FormLoginFields } from './const';
 function FormLogin(): JSX.Element {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const isLoadingLoginStatus = useSelector(selectLoadingLogin);
 
   const refs = {
     email: useRef<HTMLInputElement | null>(null),
@@ -40,9 +43,15 @@ function FormLogin(): JSX.Element {
           key={field.name}
           {...field}
           ref={refs[field.name as keyof typeof refs]}
+          disabled={isLoadingLoginStatus}
         />
       ))}
-      <button className="login__submit form__submit button" type="submit">Sign in</button>
+      <button
+        className="login__submit form__submit button"
+        type="submit"
+        disabled={isLoadingLoginStatus}
+      >Sign in
+      </button>
     </form>
   );
 }

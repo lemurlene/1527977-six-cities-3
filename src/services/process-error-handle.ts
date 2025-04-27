@@ -1,5 +1,5 @@
 import { store } from '../store';
-import { setError } from '../store/action';
+import { setError } from '../store/error/error.slice';
 import { ERROR_TIMEOUT } from './const';
 import { createAppAsyncThunk } from '../hooks';
 

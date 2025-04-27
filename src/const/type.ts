@@ -14,7 +14,7 @@ type CityType = {
   };
 };
 
-type FullOfferType = {
+export type FullOfferType = {
   id: string;
   title: string;
   description: string;

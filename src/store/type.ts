@@ -44,3 +44,7 @@ export type CommentType = {
   };
 };
 
+export type FavoriteData = {
+  offerId: string;
+  isFavorite: boolean;
+};
