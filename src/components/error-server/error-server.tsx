@@ -12,7 +12,7 @@ function ErrorServer({mainPage = false}:ErrorServerProps): JSX.Element | null {
       <Helmet>
         <title>6 cities: Error server</title>
       </Helmet>
-      <main className="page__main page__main--index page__main--index-empty">
+      <main className="page__main page__main--index page__main--index-empty page--gray page--main">
         <h1 className="visually-hidden">Error server</h1>
         <div className="cities">
           <div className="cities__places-container container cities__places-container--empty">
