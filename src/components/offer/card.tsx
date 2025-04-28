@@ -52,17 +52,17 @@ function Card({ card, handleHover, size = DefaultCardSize }: CardProps): JSX.Ele
   }), [placeClassPrefix, addInfoClass]);
 
   return (
-    <Link to={`/offer/${id}`} className={cardClasses.article}>
-      <article
-        className={cardClasses.article}
-        {...eventHandlers}
-      >
-        {isPremium && (
-          <div className="place-card__mark">
-            <span>Premium</span>
-          </div>
-        )}
-        <div className={cardClasses.imageWrapper}>
+    <article
+      className={cardClasses.article}
+      {...eventHandlers}
+    >
+      {isPremium && (
+        <div className="place-card__mark">
+          <span>Premium</span>
+        </div>
+      )}
+      <div className={cardClasses.imageWrapper}>
+        <Link to={`/offer/${id}`}>
           <img
             className="place-card__image"
             src={previewImage}
@@ -71,21 +71,25 @@ function Card({ card, handleHover, size = DefaultCardSize }: CardProps): JSX.Ele
             alt="Place image"
             loading="lazy"
           />
-        </div>
-        <div className={cardClasses.info}>
-          <div className="place-card__price-wrapper">
-            <div className="place-card__price">
-              <b className="place-card__price-value">&euro;{price}</b>
-              <span className="place-card__price-text">&#47;&nbsp;night</span>
-            </div>
-            <BookmarkMemo offerId={id} isFavorite={isFavorite}/>
+        </Link>
+      </div>
+      <div className={cardClasses.info}>
+        <div className="place-card__price-wrapper">
+          <div className="place-card__price">
+            <b className="place-card__price-value">&euro;{price}</b>
+            <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <RatingStars rating={rating} classPrefix='place-card' />
-          <h2 className="place-card__name">{title}</h2>
-          <p className="place-card__type">{type}</p>
+          <BookmarkMemo offerId={id} isFavorite={isFavorite} />
         </div>
-      </article>
-    </Link>
+        <RatingStars rating={rating} classPrefix='place-card' />
+        <h2 className="place-card__name">
+          <Link to={`/offer/${id}`}>
+            {title}
+          </Link>
+        </h2>
+        <p className="place-card__type">{type}</p>
+      </div>
+    </article>
   );
 }
 
