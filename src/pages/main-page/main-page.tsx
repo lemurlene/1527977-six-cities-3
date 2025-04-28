@@ -10,7 +10,7 @@ import TabsMemo from '../../components/tabs';
 import MainEmpty from './main-empty';
 import SortMemo from '../../components/sort';
 import Map from '../../components/map';
-import { OfferListMemo } from '../../components/offer';
+import { OfferListMemo, OffersCaptionMemo } from '../../components/offer';
 import { CityLocation } from '../../const/const';
 
 function MainPage(): JSX.Element {
@@ -71,7 +71,7 @@ function MainPage(): JSX.Element {
             {!isEmpty && (
               <section className="cities__places places">
                 <h2 className="visually-hidden">Places</h2>
-                <b className="places__found">{`${currentOffers.length} places to stay in ${currentCityName}`}</b>
+                <OffersCaptionMemo offersCount={currentOffers.length} cityName={currentCityName} />
                 <SortMemo />
                 <OfferListMemo offers={currentOffers} handleHover={onHandleHover} />
               </section>)}
