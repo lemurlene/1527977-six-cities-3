@@ -48,42 +48,43 @@ function App(): JSX.Element {
           <ErrorServer mainPage />
         ) : (
           <Routes>
-            {isAppLoading ? (
-              <Route path={AppRoute.Root} element={<Layout authorizationStatus={authorizationStatus} />}>
-                <Route index
-                  element={<LoadingPage />}
-                />
-              </Route>) : (
-              <Route path={AppRoute.Root} element={<Layout authorizationStatus={authorizationStatus} />}>
-                <Route index
-                  element={<MainPageWrapper />}
-                />
-                <Route path={AppRoute.Login}
-                  element={
-                    <PrivateRouteMemo authorizationStatus={authorizationStatus} isReverse>
-                      <LoginPage />
-                    </PrivateRouteMemo>
-                  }
-                />
-                <Route path={AppRoute.Favorites}
-                  element={
-                    <PrivateRouteMemo authorizationStatus={authorizationStatus}>
-                      <FavoritesPage />
-                    </PrivateRouteMemo>
-                  }
-                />
-                <Route path={AppRoute.Offer}
-                  element={<OfferPage authorizationStatus={authorizationStatus} />}
-                />
-                <Route path={AppRoute.Error404}
-                  element={<NotFoundPage />}
-                />
-              </Route>
-            )}
+            <Route path={AppRoute.Root} element={<Layout authorizationStatus={authorizationStatus} />}>
+              {isAppLoading ? (
+                <Route index element={<LoadingPage />} />
+              ) : (
+                <>
+                  <Route index element={<MainPageWrapper />} />
+                  <Route
+                    path={AppRoute.Login}
+                    element={
+                      <PrivateRouteMemo authorizationStatus={authorizationStatus} isReverse>
+                        <LoginPage />
+                      </PrivateRouteMemo>
+                    }
+                  />
+                  <Route
+                    path={AppRoute.Favorites}
+                    element={
+                      <PrivateRouteMemo authorizationStatus={authorizationStatus}>
+                        <FavoritesPage />
+                      </PrivateRouteMemo>
+                    }
+                  />
+                  <Route
+                    path={AppRoute.Offer}
+                    element={<OfferPage authorizationStatus={authorizationStatus} />}
+                  />
+                  <Route
+                    path={AppRoute.Error404}
+                    element={<NotFoundPage />}
+                  />
+                </>
+              )}
+            </Route>
           </Routes>
         )}
       </BrowserRouter>
-    </HelmetProvider>
+    </HelmetProvider >
   );
 }
 

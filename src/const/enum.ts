@@ -4,7 +4,7 @@ export enum AppRoute {
   Favorites = '/favorites',
   Offer = '/offer/:offerId',
   Loading = '/loading',
-  Error404 = '/*',
+  Error404 = '*',
 }
 
 export enum AuthorizationStatus {

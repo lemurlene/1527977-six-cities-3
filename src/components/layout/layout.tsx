@@ -10,7 +10,7 @@ type LayoutProps = {
   authorizationStatus: AuthorizationEnum;
 }
 
-function Layout({ authorizationStatus}: LayoutProps) {
+function Layout({ authorizationStatus }: LayoutProps) {
   const { pathname } = useLocation();
   const { rootClassName, shouldRenderUser, shouldRenderFooter } = getLayoutState(pathname as AppRoute);
   return (
@@ -19,7 +19,7 @@ function Layout({ authorizationStatus}: LayoutProps) {
         <div className="container">
           <div className="header__wrapper">
             <HeaderLogoMemo />
-            {shouldRenderUser && <HeaderNavMemo authorizationStatus={authorizationStatus}/>}
+            {shouldRenderUser && <HeaderNavMemo authorizationStatus={authorizationStatus} />}
           </div >
         </div >
       </header >
