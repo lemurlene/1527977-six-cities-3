@@ -15,15 +15,16 @@ type GetCardsProps = {
   handleHover?: (id: string | null) => void;
 }
 
-function OfferList({ offers, cardsCount, handleHover }: GetCardsProps): JSX.Element {
+function OfferList({ offers, cardsCount = offers.length, handleHover }: GetCardsProps): JSX.Element {
   const { pathname } = useLocation();
   const { offerListClass } = getState(pathname as AppRoute);
   const currentSort = useAppSelector(selectSortListType);
   const sortedOffers = sortOffers(offers, currentSort);
+  const cardsOnPage = sortedOffers.slice(0, Math.min(cardsCount, sortedOffers.length));
 
   return (
     <div className={`${offerListClass} places__list`}>
-      {sortedOffers.slice(0, cardsCount).map((card) => (
+      {cardsOnPage.map((card) => (
         <CardMemo
           key={card.id}
           card={card}

@@ -35,7 +35,9 @@ function Offer({ offer, comments, offersNear, authorizationStatus }: GetOfferPro
     maxAdults
   } = offer;
 
-  const offersMap = [offer, ...offersNear.slice(0, Setting.NearPlacesCount)];
+  const safeOffersNear = offersNear || [];
+  const maxNearOffers = Math.min(Setting.NearPlacesCount, safeOffersNear.length);
+  const offersMap = [offer, ...safeOffersNear.slice(0, maxNearOffers)];
 
   return (
     <section className="offer">
