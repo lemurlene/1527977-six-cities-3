@@ -1,4 +1,15 @@
-import { CardType, FullOfferType } from './const/type';
+import { Action } from 'redux';
+import { ThunkDispatch } from 'redux-thunk';
+import { name, internet, lorem, datatype } from 'faker';
+
+import { RootState } from './store//type';
+import { createAPI } from './services/api';
+import { CardType, FullOfferType, ReviewType } from './const/type';
+
+export type AppThunkDispatch = ThunkDispatch<RootState, ReturnType<typeof createAPI>, Action>;
+
+export const extractActionsTypes = (actions: Action<string>[]) =>
+  actions.map(({ type }) => type);
 
 export const makeFakeCard = (isFavorite = false): CardType => ({
   id: isFavorite ? 'faa632dd-82a8-4fe2-a397-91bdfe78a874' : '59e85f10-22f3-469d-8a64-f9480aa4bbad',
@@ -61,4 +72,16 @@ export const makeFakeOffer = (isFavorite = false): FullOfferType => ({
   ],
   maxAdults: 4
 } as FullOfferType);
+
+export const makeFakeReview = () => ({
+  id: 'faa632dd-82a8-4fe2-a397-91bdfe78a874',
+  date:  new Date().toISOString(),
+  user: {
+    name: name.title(),
+    avatarUrl: internet.avatar(),
+    isPro: datatype.boolean(),
+  },
+  comment: lorem.sentence(),
+  rating: datatype.number({ min: 1, max: 5 }),
+} as ReviewType);
 

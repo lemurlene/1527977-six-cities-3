@@ -3,7 +3,7 @@ import { Hourglass } from 'react-loader-spinner';
 
 function Spinner() {
   return (
-    <p>
+    <p data-testid="spinner-wrapper">
       <Hourglass
         visible
         height="80"
