@@ -1,14 +1,8 @@
 import { InitialStateType } from './type';
-
-export const Status = {
-  Idle: 'IDLE',
-  Loading: 'LOADING',
-  Success: 'SUCCESS',
-  Error: 'ERROR'
-} as const;
+import { LoadingStatus } from '../../const/enum';
 
 export const initialState: InitialStateType = {
   favoriteOffers: [],
   isFavoriteOffersLoading: false,
-  uploadingFavoriteStatus: Status.Idle,
+  uploadingFavoriteStatus: LoadingStatus.Idle,
 };

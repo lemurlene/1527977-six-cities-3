@@ -25,7 +25,6 @@ export const favoritesSlice = createSlice({
       })
       .addCase(changeFavoriteStatus.rejected, (state) => {
         state.uploadingFavoriteStatus = LoadingStatus.Error;
-        state.uploadingFavoriteStatus = LoadingStatus.Idle;
       })
       .addCase(changeFavoriteStatus.fulfilled, (state, action) => {
         state.uploadingFavoriteStatus = LoadingStatus.Success;
@@ -34,7 +33,6 @@ export const favoritesSlice = createSlice({
         } else {
           state.favoriteOffers = state.favoriteOffers.filter((item) => item.id !== action.payload.id);
         }
-        state.uploadingFavoriteStatus = LoadingStatus.Idle;
       });
   }
 });
