@@ -5,8 +5,6 @@ import { Action } from 'redux';
 import { AppThunkDispatch, extractActionsTypes, makeFakeCard } from '../../mock';
 import { createAPI } from '../../services/api';
 import { APIRoute } from '../../const/enum';
-import { Setting } from '../../const/const';
-import { DefaultSort } from '../../components/sort/const';
 import { RootState } from '../type';
 import { fetchOffers } from '../api-action';
 
@@ -18,7 +16,11 @@ describe('Acync actioins', () => {
   let store: ReturnType<typeof mockStoreCreator>;
 
   beforeEach(() => {
-    store = mockStoreCreator({ App: { currentCity: Setting.DefaultCity, currentSort: DefaultSort }});
+    store = mockStoreCreator({ OFFERS: {
+      offers: [],
+      isLoadingOffers: false,
+      isErrorConnectionOffers: false,
+    }});
   });
 
   describe('fetchOffers slice', () => {
