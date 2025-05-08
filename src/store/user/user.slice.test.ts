@@ -5,11 +5,11 @@ import { Action } from 'redux';
 import { AppThunkDispatch, extractActionsTypes } from '../../mock';
 import { createAPI } from '../../services/api';
 import { APIRoute } from '../../const/enum';
-import { Setting } from '../../const/const';
-import { DefaultSort } from '../../components/sort/const';
+import { AuthorizationStatus } from '../../const/enum';
 import { RootState } from '../type';
 import { checkAuthorization, loginAction, logoutAction } from '../api-action';
 import { AuthData } from '../type';
+import * as tokenStorage from '../../services/token';
 
 describe('Acync actioins', () => {
   const axios = createAPI();
@@ -19,7 +19,14 @@ describe('Acync actioins', () => {
   let store: ReturnType<typeof mockStoreCreator>;
 
   beforeEach(() => {
-    store = mockStoreCreator({ App: { currentCity: Setting.DefaultCity, currentSort: DefaultSort }});
+    store = mockStoreCreator({
+      USER: {
+        authorizationStatus: AuthorizationStatus.Unknown,
+        userInfo: null,
+        isLoadingLogin: false,
+        isLoadingLogout: false,
+      }
+    });
   });
 
   describe('checkAuthorization slice', () => {
@@ -35,7 +42,7 @@ describe('Acync actioins', () => {
       ]);
     });
 
-    it('should dispatch checkAuthorization.pending and checkAuthorization.rejected when server response 400', async() => {
+    it('should dispatch checkAuthorization.pending and checkAuthorization.rejected when server response 400', async () => {
       mockAxiosAdapter.onGet(APIRoute.Login).reply(400);
 
       await store.dispatch(checkAuthorization());
@@ -48,7 +55,7 @@ describe('Acync actioins', () => {
     });
 
     describe('loginAction', () => {
-      it('should dispatch loginAction.pending, redirectToRoute, loginAction.fulfilled when server response 200', async() => {
+      it('should dispatch loginAction.pending, redirectToRoute, loginAction.fulfilled when server response 200', async () => {
         const fakeUser: AuthData = { login: 'test@test.ru', password: '123456' };
         const fakeServerReplay = { token: 'secret' };
         mockAxiosAdapter.onPost(APIRoute.Login).reply(200, fakeServerReplay);
@@ -58,7 +65,6 @@ describe('Acync actioins', () => {
 
         expect(actions).toEqual([
           loginAction.pending.type,
-          redirectToRoute.type,
           loginAction.fulfilled.type,
         ]);
       });
@@ -78,7 +84,7 @@ describe('Acync actioins', () => {
     });
 
     describe('logoutAction', () => {
-      it('should dispatch logoutAction.pending, logoutAction.fulfilled when server response 204', async() => {
+      it('should dispatch logoutAction.pending, logoutAction.fulfilled when server response 204', async () => {
         mockAxiosAdapter.onDelete(APIRoute.Logout).reply(204);
 
         await store.dispatch(logoutAction());

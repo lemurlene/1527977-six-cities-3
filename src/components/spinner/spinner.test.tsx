@@ -3,8 +3,9 @@ import SpinnerMemo from '.';
 
 describe('Component: Spinner', () => {
   it('should render coorect', () => {
+    const spinnerWrapperId = 'spinner-wrapper';
     render(<SpinnerMemo />);
 
-    expect(screen.getByRole('status')).toBeInTheDocument();
+    expect(screen.getByTestId(spinnerWrapperId)).toBeInTheDocument();
   });
 });
