@@ -1,12 +1,11 @@
 import axios, { AxiosInstance, InternalAxiosRequestConfig, AxiosResponse, AxiosError } from 'axios';
-import { processErrorHandle } from './process-error-handle';
 import { getToken } from './token';
 import { DetailMessageType } from './type';
 import { BASE_URL, SERVER_TIMEOUT, StatusCodeMapping } from './const';
 
 const shouldDisplayError = (response: AxiosResponse) => !StatusCodeMapping[response.status];
 
-const createAPI = (): AxiosInstance => {
+function createAPI(processErrorHandle: (message: string) => void): AxiosInstance {
   const api = axios.create({
     baseURL: BASE_URL,
     timeout: SERVER_TIMEOUT,
@@ -32,11 +31,11 @@ const createAPI = (): AxiosInstance => {
           processErrorHandle(message);
         }
       }
-      return Promise.reject(error);
+      throw error;
     }
   );
 
   return api;
-};
+}
 
-export { createAPI };
+export default createAPI;

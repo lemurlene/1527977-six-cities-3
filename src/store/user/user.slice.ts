@@ -1,6 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { checkAuthorization, loginAction, logoutAction } from '../api-action';
-import { saveToken, dropToken } from '../../services/token';
 import { NameSpace } from '../const';
 import { initialState } from './const';
 import { handleAuthSuccess, handleAuthFailure } from './utils';
@@ -21,7 +20,6 @@ const userSlice = createSlice({
       .addCase(loginAction.fulfilled, (state, action) => {
         state.isLoadingLogin = false;
         handleAuthSuccess(state, action.payload);
-        saveToken(action.payload.token);
       })
       .addCase(loginAction.rejected, (state) => {
         state.isLoadingLogin = false;
@@ -33,7 +31,6 @@ const userSlice = createSlice({
       .addCase(logoutAction.fulfilled, (state) => {
         state.isLoadingLogout = false;
         handleAuthFailure(state);
-        dropToken();
       })
       .addCase(logoutAction.rejected, (state) => {
         state.isLoadingLogout = false;

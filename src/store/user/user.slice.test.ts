@@ -3,16 +3,17 @@ import MockAdapter from 'axios-mock-adapter';
 import thunk from 'redux-thunk';
 import { Action } from 'redux';
 import { AppThunkDispatch, extractActionsTypes } from '../../mock';
-import { createAPI } from '../../services/api';
+import createAPI from '../../services/api';
 import { APIRoute } from '../../const/enum';
 import { AuthorizationStatus } from '../../const/enum';
-import { RootState } from '../type';
+import { RootState, AuthData } from '../type';
 import { checkAuthorization, loginAction, logoutAction } from '../api-action';
-import { AuthData } from '../type';
 import * as tokenStorage from '../../services/token';
 
+const mockProcessErrorHandle = vi.fn();
+
 describe('Acync actioins', () => {
-  const axios = createAPI();
+  const axios = createAPI(mockProcessErrorHandle);
   const mockAxiosAdapter = new MockAdapter(axios);
   const middleware = [thunk.withExtraArgument(axios)];
   const mockStoreCreator = configureMockStore<RootState, Action<string>, AppThunkDispatch>(middleware);
@@ -60,6 +61,7 @@ describe('Acync actioins', () => {
         const fakeServerReplay = { token: 'secret' };
         mockAxiosAdapter.onPost(APIRoute.Login).reply(200, fakeServerReplay);
 
+
         await store.dispatch(loginAction(fakeUser));
         const actions = extractActionsTypes(store.getActions());
 
@@ -80,30 +82,30 @@ describe('Acync actioins', () => {
         expect(mockSaveToken).toBeCalledTimes(1);
         expect(mockSaveToken).toBeCalledWith(fakeServerReplay.token);
       });
-
     });
 
-    describe('logoutAction', () => {
-      it('should dispatch logoutAction.pending, logoutAction.fulfilled when server response 204', async () => {
-        mockAxiosAdapter.onDelete(APIRoute.Logout).reply(204);
+  });
 
-        await store.dispatch(logoutAction());
-        const actions = extractActionsTypes(store.getActions());
+  describe('logoutAction', () => {
+    it('should dispatch logoutAction.pending, logoutAction.fulfilled when server response 204', async () => {
+      mockAxiosAdapter.onDelete(APIRoute.Logout).reply(204);
 
-        expect(actions).toEqual([
-          logoutAction.pending.type,
-          logoutAction.fulfilled.type,
-        ]);
-      });
+      await store.dispatch(logoutAction());
+      const actions = extractActionsTypes(store.getActions());
 
-      it('should one call dropToken with logoutAction', async () => {
-        mockAxiosAdapter.onDelete(APIRoute.Logout).reply(204);
-        const mockDropToken = vi.spyOn(tokenStorage, 'dropToken');
+      expect(actions).toEqual([
+        logoutAction.pending.type,
+        logoutAction.fulfilled.type,
+      ]);
+    });
 
-        await store.dispatch(logoutAction());
+    it('should one call dropToken with logoutAction', async () => {
+      mockAxiosAdapter.onDelete(APIRoute.Logout).reply(204);
+      const mockDropToken = vi.spyOn(tokenStorage, 'dropToken');
 
-        expect(mockDropToken).toBeCalledTimes(1);
-      });
+      await store.dispatch(logoutAction());
+
+      expect(mockDropToken).toBeCalledTimes(1);
     });
   });
 });

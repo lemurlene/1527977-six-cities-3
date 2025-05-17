@@ -3,13 +3,15 @@ import MockAdapter from 'axios-mock-adapter';
 import thunk from 'redux-thunk';
 import { Action } from 'redux';
 import { AppThunkDispatch, extractActionsTypes, makeFakeCard } from '../../mock';
-import { createAPI } from '../../services/api';
+import createAPI from '../../services/api';
 import { APIRoute } from '../../const/enum';
 import { RootState } from '../type';
 import { fetchOffers } from '../api-action';
 
+const mockProcessErrorHandle = vi.fn();
+
 describe('Acync actioins', () => {
-  const axios = createAPI();
+  const axios = createAPI(mockProcessErrorHandle);
   const mockAxiosAdapter = new MockAdapter(axios);
   const middleware = [thunk.withExtraArgument(axios)];
   const mockStoreCreator = configureMockStore<RootState, Action<string>, AppThunkDispatch>(middleware);

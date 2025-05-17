@@ -3,6 +3,7 @@ import { CardType, OfferType, FullOfferType, ReviewType } from '../const/type';
 import { APIRoute } from '../const/enum';
 import { NameSpace } from './const';
 import { createAppAsyncThunk } from '../hooks';
+import { saveToken, dropToken } from '../services/token';
 
 const fetchOffers = createAppAsyncThunk<CardType[], undefined>(
   `${NameSpace.Offers}/fetchOffers`,
@@ -14,8 +15,8 @@ const fetchOffers = createAppAsyncThunk<CardType[], undefined>(
 
 const checkAuthorization = createAppAsyncThunk<UserData, undefined>(
   `${NameSpace.User}/checkAuthorization`,
-  async (_arg, { extra: api}) => {
-    const {data} = await api.get<UserData>(APIRoute.Login);
+  async (_arg, { extra: api }) => {
+    const { data } = await api.get<UserData>(APIRoute.Login);
     return data;
   },
 );
@@ -23,15 +24,17 @@ const checkAuthorization = createAppAsyncThunk<UserData, undefined>(
 const loginAction = createAppAsyncThunk<UserData, AuthData>(
   `${NameSpace.User}/login`,
   async ({ login: email, password }, { extra: api }) => {
-    const {data} = await api.post<UserData>(APIRoute.Login, { email, password });
+    const { data } = await api.post<UserData>(APIRoute.Login, { email, password });
+    saveToken(data.token);
     return data;
   }
 );
 
 const logoutAction = createAppAsyncThunk<void, undefined>(
   `${NameSpace.User}/logout`,
-  async (_arg, {extra: api }) => {
+  async (_arg, { extra: api }) => {
     await api.delete(APIRoute.Logout);
+    dropToken();
   }
 );
 
@@ -62,7 +65,7 @@ const fetchOfferComments = createAppAsyncThunk<ReviewType[], string>(
 const postOfferComment = createAppAsyncThunk<ReviewType, CommentType>(
   `${NameSpace.Reviews}/postOfferComment`,
   async ({ id, comment }, { extra: api }) => {
-    const { data } = await api.post<ReviewType>(`${APIRoute.Comments}/${id}`,{ comment: comment.review, rating: +comment.rating });
+    const { data } = await api.post<ReviewType>(`${APIRoute.Comments}/${id}`, { comment: comment.review, rating: +comment.rating });
     return data;
   }
 );
@@ -77,11 +80,13 @@ const fetchFavoriteOffers = createAppAsyncThunk<CardType[], undefined>(
 
 const changeFavoriteStatus = createAppAsyncThunk<FullOfferType, FavoriteData>(
   `${NameSpace.Favorite}/changeFavoriteStatus`,
-  async ({offerId, isFavorite}, { extra: api}) => {
+  async ({ offerId, isFavorite }, { extra: api }) => {
     const offerStatus = Number(!isFavorite);
-    const {data} = await api.post<FullOfferType>(`${APIRoute.Favorite}/${offerId}/${offerStatus}`);
+    const { data } = await api.post<FullOfferType>(`${APIRoute.Favorite}/${offerId}/${offerStatus}`);
     return data;
   });
 
-export { fetchOffers, checkAuthorization, loginAction, logoutAction,
-  getOfferInfoById, fetchOffersNear, fetchOfferComments, postOfferComment, fetchFavoriteOffers, changeFavoriteStatus };
+export {
+  fetchOffers, checkAuthorization, loginAction, logoutAction,
+  getOfferInfoById, fetchOffersNear, fetchOfferComments, postOfferComment, fetchFavoriteOffers, changeFavoriteStatus
+};
