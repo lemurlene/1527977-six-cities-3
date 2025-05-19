@@ -1,7 +1,7 @@
 import { LoadingStatus } from '../../const/enum';
 import { fetchFavoriteOffers, changeFavoriteStatus } from '../api-action';
 import { initialState } from './const';
-import { makeFakeCard, makeFakeOffer } from '../../mock';
+import { makeFakeCard, makeFakeOffer } from '../../mocks/mocks';
 import { favoritesSlice } from './favorites.slice';
 
 const isFavorite = true;

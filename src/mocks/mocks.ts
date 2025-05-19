@@ -2,11 +2,11 @@ import { Action } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
 import { name, internet, lorem, datatype } from 'faker';
 
-import { RootState } from './store//type';
-import { createAPI } from './services/api';
-import { CardType, FullOfferType, ReviewType } from './const/type';
+import { State } from '../store/type';
+import createAPI from '../services/api';
+import { CardType, FullOfferType, ReviewType } from '../const/type';
 
-export type AppThunkDispatch = ThunkDispatch<RootState, ReturnType<typeof createAPI>, Action>;
+export type AppThunkDispatch = ThunkDispatch<State, ReturnType<typeof createAPI>, Action>;
 
 export const extractActionsTypes = (actions: Action<string>[]) =>
   actions.map(({ type }) => type);

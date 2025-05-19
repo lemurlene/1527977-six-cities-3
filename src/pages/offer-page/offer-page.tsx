@@ -37,25 +37,6 @@ function OfferPage({ authorizationStatus }: OfferPageProps): JSX.Element {
     selectCommentsOffersStatus(state)
   ]);
 
-  // useEffect(() => {
-  //   if (!offerId) {
-  //     return;
-  //   }
-  //   dispatch(getOfferInfoById(offerId))
-  //     .unwrap()
-  //     .then(() => {
-  //       dispatch(fetchOffersNear(offerId));
-  //       dispatch(fetchOfferComments(offerId));
-  //     })
-  //     .catch(() => {
-  //       dispatch(setErrorConnectionStatusOffer(true));
-  //     });
-  //   return () => {
-  //     dispatch(setErrorConnectionStatusOffer(false));
-  //   };
-  // }, [dispatch, offerId]);
-
-
   const loadOfferData = useCallback(async () => {
     if (!offerId) {
       return;

@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import BookmarkMemo from '.';
-import { makeFakeCard } from '../../mock';
+import { makeFakeCard } from '../../mocks/mocks';
 
 describe('Component: BookmarkButton', () => {
   it('should render correct', () => {
