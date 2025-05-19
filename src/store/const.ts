@@ -4,7 +4,7 @@ export const NameSpace = {
   User: 'USER',
   Offer: 'OFFER',
   Offers: 'OFFERS',
-  OffersNear: 'OFFERS-NEAR',
+  OffersNear: 'OFFERS_NEAR',
   Sort: 'SORT',
   City: 'CITY',
   Reviews: 'REVIEWS',
