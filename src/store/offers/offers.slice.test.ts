@@ -27,7 +27,7 @@ describe('Acync actioins', () => {
 
   describe('fetchOffers slice', () => {
     it('should dispatch fetchOffers.pending and fetchOffers.fulfilled when server response 200', async () => {
-      const mockOffers = [makeFakeCard(), makeFakeCard(false)];
+      const mockOffers = [makeFakeCard(), makeFakeCard()];
       mockAxiosAdapter.onGet(APIRoute.Offers).reply(200, mockOffers);
 
       await store.dispatch(fetchOffers());
