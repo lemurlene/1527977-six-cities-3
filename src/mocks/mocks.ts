@@ -3,71 +3,67 @@ import { ThunkDispatch } from 'redux-thunk';
 import { name, internet, lorem, datatype } from 'faker';
 import { State, UserData } from '../store/type';
 import createAPI from '../services/api';
-import { CardType, FullOfferType, ReviewType } from '../const/type';
+import { CardType, FullOfferType, ReviewType, CityType, CitiesEnum } from '../const/type';
 import { LoadingStatus, AuthorizationStatus } from '../const/enum';
-import { Setting } from '../const/const';
+import { Setting, Cities, CityLocation } from '../const/const';
 import { DefaultSort } from '../components/sort/const';
-
+import { getRandomCity } from '../pages/login-page/utils';
+import { generateRating } from './utils';
 
 export type AppThunkDispatch = ThunkDispatch<State, ReturnType<typeof createAPI>, Action>;
 
 export const extractActionsTypes = (actions: Action<string>[]) =>
   actions.map(({ type }) => type);
 
-export const makeFakeCard = (isFavorite = false): CardType => ({
-  id: isFavorite ? 'faa632dd-82a8-4fe2-a397-91bdfe78a874' : '59e85f10-22f3-469d-8a64-f9480aa4bbad',
-  title: 'Beautiful & luxurious studio at great location',
-  type: 'apartment',
-  price: 120,
-  city: {
-    name: 'Amsterdam',
-    location: {
-      latitude: 52.35514938496378,
-      longitude: 4.673877537499948,
-      zoom: 8
-    }
-  },
-  location: {
-    latitude: 52.35514938496378,
-    longitude: 4.673877537499948,
-    zoom: 8
-  },
-  isFavorite: isFavorite,
-  isPremium: false,
-  rating: 4,
-  description: 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.',
-  previewImage: 'https://url-to-image/image.png',
-} as CardType);
+const createMockCity = (cityKey?: CitiesEnum): CityType => {
+  const key = cityKey || getRandomCity();
+  const cityName = Cities[key];
 
-export const makeFakeOffer = (isFavorite = false): FullOfferType => ({
-  id: isFavorite ? 'faa632dd-82a8-4fe2-a397-91bdfe78a874' : '59e85f10-22f3-469d-8a64-f9480aa4bbad',
-  title: 'Beautiful & luxurious studio at great location',
-  type: 'apartment',
-  price: 120,
-  city: {
-    name: 'Amsterdam',
+  return {
+    name: cityName,
     location: {
-      latitude: 52.35514938496378,
-      longitude: 4.673877537499948,
-      zoom: 8
+      latitude: CityLocation[cityName].latitude,
+      longitude: CityLocation[cityName].longitude,
+      zoom: CityLocation[cityName].zoom
     }
-  },
-  location: {
-    latitude: 52.35514938496378,
-    longitude: 4.673877537499948,
-    zoom: 8
-  },
-  isFavorite: isFavorite,
-  isPremium: false,
-  rating: 4,
-  description: 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.',
+  };
+};
+
+export const makeFakeCard = (params: {
+  isFavorite?: boolean;
+  cityKey?: CitiesEnum;
+} = {}): CardType => {
+  const city = createMockCity(params.cityKey);
+  const cardId = params.isFavorite
+    ? 'faa632dd-82a8-4fe2-a397-91bdfe78a874'
+    : '59e85f10-22f3-469d-8a64-f9480aa4bbad';
+
+  return {
+    id: cardId,
+    title: lorem.sentence(),
+    type: 'apartment',
+    price: 120,
+    city: city,
+    location: { ...city.location },
+    isFavorite: params.isFavorite ?? false,
+    isPremium: false,
+    rating: generateRating(),
+    description: lorem.sentence(),
+    previewImage: 'https://url-to-image/image.png',
+  } as CardType;
+};
+
+
+export const makeFakeOffer = (params: Parameters<typeof makeFakeCard>[0] = {}): FullOfferType => ({
+  ...makeFakeCard(params),
+  description: lorem.sentence(),
   bedrooms: 3,
   goods: [
     'Heating'
   ],
   host: {
-    name: 'Oliver Conner',
-    avatarUrl: 'https://url-to-image/image.png',
+    name: name.title(),
+    avatarUrl: internet.avatar(),
     isPro: false
   },
   images: [
@@ -85,7 +81,7 @@ export const makeFakeReview = () => ({
     isPro: datatype.boolean(),
   },
   comment: lorem.sentence(),
-  rating: datatype.number({ min: 1, max: 5 }),
+  rating: generateRating(),
 } as ReviewType);
 
 export const makeFakeStore = (initialState?: Partial<State>): State => ({

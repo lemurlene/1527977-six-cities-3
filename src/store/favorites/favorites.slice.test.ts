@@ -4,13 +4,11 @@ import { initialState } from './const';
 import { makeFakeCard, makeFakeOffer } from '../../mocks/mocks';
 import { favoritesSlice } from './favorites.slice';
 
-const isFavorite = true;
-
 describe('favorites slice', () => {
   const emptyAction = { type: '' };
   const mockCard = makeFakeCard();
-  const mockOfferIsFavorite = makeFakeOffer(isFavorite);
-  const mockOfferNotFavorite = makeFakeOffer(!isFavorite);
+  const mockOfferIsFavorite = makeFakeOffer({ isFavorite: true });
+  const mockOfferNotFavorite = makeFakeOffer();
 
   it('should return initial state with empty action', () => {
     const expectedState = initialState;

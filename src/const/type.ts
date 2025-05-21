@@ -5,7 +5,7 @@ type HousingTypes = 'apartment' | 'room' | 'house' | 'hotel';
 
 export type CitiesEnum = typeof Cities[keyof typeof Cities];
 
-type CityType = {
+export type CityType = {
   name: CitiesEnum;
   location: {
     latitude: number;

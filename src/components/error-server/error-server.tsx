@@ -16,7 +16,7 @@ function ErrorServer({mainPage = false}:ErrorServerProps): JSX.Element | null {
         <h1 className="visually-hidden">Error server</h1>
         <div className="cities">
           <div className="cities__places-container container cities__places-container--empty">
-            <section className="cities__no-places">
+            <section className="cities__no-places" data-testid="error-server">
               <div className="cities__status-wrapper tabs__content">
                 <b className="cities__status">Что-то пошло не так. Попробуйте перезагрузить страницу.</b>
                 {!mainPage &&

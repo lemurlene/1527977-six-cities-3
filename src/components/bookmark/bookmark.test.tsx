@@ -8,7 +8,7 @@ import { AuthorizationStatus, APIRoute } from '../../const/enum';
 import { changeFavoriteStatus } from '../../store/api-action';
 
 describe('Component: BookmarkButton', () => {
-  const mockOffer = makeFakeOffer(false);
+  const mockOffer = makeFakeOffer();
 
   it('should render correct', () => {
     const { withStoreComponent } = withStore(<BookmarkMemo offerId={mockOffer.id} isFavorite={mockOffer.isFavorite} />, makeFakeStore());

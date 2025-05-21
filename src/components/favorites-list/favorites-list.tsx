@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import useGroupedOffers from './utils';
+import useGroupedOffers from '../../hooks/use-grouped-offers/use-grouped-offers';
 import { CardMemo } from '../offer';
 import { FavoritesCardSize } from './const';
 

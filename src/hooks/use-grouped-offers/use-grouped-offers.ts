@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { useAppSelector } from '../../hooks';
+import { useAppSelector } from '..';
 import { selectFavoriteOffers } from '../../store/favorites/favorites.selector';
 import { CardType } from '../../const/type';
 
