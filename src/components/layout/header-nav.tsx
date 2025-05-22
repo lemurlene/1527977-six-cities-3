@@ -22,7 +22,7 @@ function HeaderNav({ authorizationStatus}: HeaderProps): JSX.Element {
   }, [dispatch, isAuthenticated]);
 
   return (
-    <nav className="header__nav">
+    <nav className="header__nav" data-testid="header-nav">
       <ul className="header__nav-list">
         <li className="header__nav-item user">
           <Link className="header__nav-link header__nav-link--profile" to={targetRoute}>

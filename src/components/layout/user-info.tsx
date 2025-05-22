@@ -13,10 +13,10 @@ function UserInfo(): JSX.Element {
   const favoritesCount = useAppSelector(selectFavoriteOffersCount);
 
   return (
-    <>
+    <template data-testid="user-info">
       <span className="header__user-name user__name">{email}</span>
       <span className="header__favorite-count">{favoritesCount}</span>
-    </>
+    </template>
   );
 }
 

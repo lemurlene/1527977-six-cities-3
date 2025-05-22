@@ -14,7 +14,7 @@ function Layout({ authorizationStatus }: LayoutProps) {
   const { pathname } = useLocation();
   const { rootClassName, shouldRenderUser, shouldRenderFooter } = getLayoutState(pathname as AppRoute);
   return (
-    <div className={`page ${rootClassName}`}>
+    <div className={`page ${rootClassName}`} data-testid="layout">
       <header className="header">
         <div className="container">
           <div className="header__wrapper">
