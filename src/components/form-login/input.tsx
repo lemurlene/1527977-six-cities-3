@@ -8,7 +8,7 @@ type InputProps = {
 } & React.InputHTMLAttributes<HTMLInputElement>;
 
 const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ type, name, placeholder, pattern, title }, ref) => (
+  ({ type, name, placeholder, pattern, title, disabled }, ref) => (
     <div className="login__input-wrapper form__input-wrapper">
       <label className="visually-hidden">{placeholder}</label>
       <input
@@ -20,6 +20,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
         pattern={pattern}
         ref={ref}
         title={title}
+        disabled={disabled}
       />
     </div>
   )
