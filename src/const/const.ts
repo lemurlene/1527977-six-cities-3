@@ -1,6 +1,7 @@
 export const Setting = {
   DefaultCity: 'Paris',
   RatingsCoefficient: 20,
+  RatingStars: 5,
   OffersPhotoCount: 6,
   NearPlacesCount: 3,
 } as const;
