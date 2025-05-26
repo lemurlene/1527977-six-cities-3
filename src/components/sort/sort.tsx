@@ -42,13 +42,14 @@ function Sort(): JSX.Element {
         tabIndex={0}
         ref={sortRef}
         onClick={handleSortTypeChange}
+        data-testid="sort-type"
       >
         {currentSortType}
         <svg className="places__sorting-arrow" width="7" height="4">
           <use xlinkHref="#icon-arrow-select"></use>
         </svg>
       </span>
-      <ul
+      <ul data-testid="sort-options"
         className={cn('places__options places__options--custom',
           { 'places__options--opened': isSortingOpen })}
       >

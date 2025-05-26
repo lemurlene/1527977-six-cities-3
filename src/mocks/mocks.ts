@@ -32,6 +32,8 @@ const createMockCity = (cityKey?: CitiesEnum): CityType => {
 export const makeFakeCard = (params: {
   isFavorite?: boolean;
   cityKey?: CitiesEnum;
+  price?: number;
+  rating?: number;
 } = {}): CardType => {
   const city = createMockCity(params.cityKey);
   const cardId = params.isFavorite
@@ -42,12 +44,12 @@ export const makeFakeCard = (params: {
     id: cardId,
     title: lorem.sentence(),
     type: 'apartment',
-    price: 120,
+    price: params.price ?? 120,
     city: city,
     location: { ...city.location },
     isFavorite: params.isFavorite ?? false,
     isPremium: false,
-    rating: generateRating(),
+    rating: params.rating ?? generateRating(),
     description: lorem.sentence(),
     previewImage: 'https://url-to-image/image.png',
   } as CardType;

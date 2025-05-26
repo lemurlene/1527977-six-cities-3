@@ -1,48 +1,104 @@
-import { render, screen, fireEvent } from '@testing-library/react';
-import Sort from './Sort';
-
-jest.mock('../../store', () => ({
-  ...jest.requireActual('../../store'),
-  useAppSelector: jest.fn(),
-  useAppDispatch: () => jest.fn(),
-}));
-
-import { useAppSelector } from '../../store';
-
-const mockSelectSortType = useAppSelector as jest.Mock;
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { describe, it, expect } from 'vitest';
+import { withStore } from '../../mocks/mock-component';
+import Sort from './sort';
+import { SortTypes } from './const';
+import { MemoryRouter } from 'react-router-dom';
 
 describe('Sort component', () => {
-  const mockDispatch = jest.fn();
+  const initialStore = {
+    SORT: {
+      currentSortType: SortTypes.Popular
+    }
+  };
 
-  beforeEach(() => {
-    jest.clearAllMocks();
-    mockSelectSortType.mockReturnValue('Price: low to high'); // или другое значение
+  it('should render correctly with default sort type', () => {
+    const { withStoreComponent } = withStore(
+      <MemoryRouter>
+        <Sort />
+      </MemoryRouter>,
+      initialStore
+    );
+
+    render(withStoreComponent);
+
+    expect(screen.getByText('Sort by')).toBeInTheDocument();
+    expect(screen.getByTestId('sort-type')).toHaveTextContent(SortTypes.Popular);
+    expect(screen.getByTestId('sort-options')).not.toHaveClass('places__options--opened');
   });
 
-  it('выводит текущий тип сортировки', () => {
-    render(<Sort />);
-    expect(screen.getByText(/Price: low to high/)).toBeInTheDocument();
+  it('should open/close sort options when clicking on sort type', async () => {
+    const { withStoreComponent } = withStore(
+      <MemoryRouter>
+        <Sort />
+      </MemoryRouter>,
+      initialStore
+    );
+
+    render(withStoreComponent);
+    const sortType = screen.getByTestId('sort-type');
+
+    await userEvent.click(sortType);
+    expect(screen.getByTestId('sort-options')).toHaveClass('places__options--opened');
+
+    await userEvent.click(sortType);
+    expect(screen.getByTestId('sort-options')).not.toHaveClass('places__options--opened');
   });
 
-  it('открывает список при клике', () => {
-    render(<Sort />);
-    const sortTypeSpan = screen.getByText(/Price: low to high/);
-    fireEvent.click(sortTypeSpan);
-    expect(screen.getByRole('list')).toBeVisible(); // или проверить класс
+  it('should display all sort options', () => {
+    const { withStoreComponent } = withStore(
+      <MemoryRouter>
+        <Sort />
+      </MemoryRouter>,
+      initialStore
+    );
+
+    render(withStoreComponent);
+
+    const options = screen.getAllByRole('listitem');
+    expect(options).toHaveLength(Object.values(SortTypes).length);
   });
 
-  it('закрывает список при клике вне', () => {
-    render(<Sort />);
-    const sortTypeSpan = screen.getByText(/Price: low to high/);
-    fireEvent.click(sortTypeSpan);
-    // клик вне
-    fireEvent.click(document.body);
-    // ожидание, что список закрыт
-    // можете проверить, что класс убран или элемент исчез
+  it('should close sort options when clicking outside', async () => {
+    const { withStoreComponent } = withStore(
+      <MemoryRouter>
+        <div>
+          <Sort />
+          <div data-testid="outside-element">Outside element</div>
+        </div>
+      </MemoryRouter>,
+      initialStore
+    );
+
+    render(withStoreComponent);
+    const sortType = screen.getByTestId('sort-type');
+
+    await userEvent.click(sortType);
+    expect(screen.getByTestId('sort-options')).toHaveClass('places__options--opened');
+
+    await userEvent.click(screen.getByTestId('outside-element'));
+    expect(screen.getByTestId('sort-options')).not.toHaveClass('places__options--opened');
   });
 
-  it('меняет сортировку при выборе другого варианта', () => {
-    // Тут нужно мокать dispatch и симулировать клик по пункту
-    // Можно найти элемент li по тексту и кликнуть
+  it('should highlight current sort type', () => {
+    const currentType = SortTypes.Top;
+    const { withStoreComponent } = withStore(
+      <MemoryRouter>
+        <Sort />
+      </MemoryRouter>,
+      {
+        SORT: {
+          currentSortType: currentType
+        }
+      }
+    );
+
+    render(withStoreComponent);
+
+    const sortOptions = screen.getByTestId('sort-options');
+
+    const activeOption = sortOptions.querySelector('.places__option--active');
+    expect(activeOption).toBeInTheDocument();
   });
 });
