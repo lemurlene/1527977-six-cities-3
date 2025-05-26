@@ -1,12 +1,12 @@
 import { AppRoute } from '../../const/enum';
 import { matchPath } from 'react-router-dom';
 
-export const getState = (pathname: AppRoute) => {
+export const getState = (pathname: string) => {
   let placeClassPrefix = '';
   let offerListClass = '';
   let addInfoClass = '';
 
-  if (pathname === AppRoute.Favorites) {
+  if (pathname === AppRoute.Favorites as string) {
     placeClassPrefix = ' favorites';
     addInfoClass = ' favorites__card-info';
   } else if (matchPath(AppRoute.Offer, pathname)) {

@@ -25,7 +25,7 @@ function OfferList({ offers, cardsCount = offers.length, handleHover }: GetCards
   return (
     <div className={`${offerListClass} places__list`}>
       {cardsOnPage.map((card) => (
-        <CardMemo
+        <CardMemo data-testid="card"
           key={card.id}
           card={card}
           handleHover={handleHover}

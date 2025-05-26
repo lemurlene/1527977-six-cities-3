@@ -10,7 +10,7 @@ function OffersCaption({ offersCount, cityName }: OffersCaptionProps) {
 
   return (
     <b className="places__found">
-      {`${offersCount} ${getPlacesWord(offersCount)} to stay in ${cityName}`}
+      {offersCount} {getPlacesWord(offersCount)} to stay in {cityName}
     </b>
   );
 }

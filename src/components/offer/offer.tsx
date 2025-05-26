@@ -41,7 +41,7 @@ function Offer({ offer, comments, offersNear, authorizationStatus }: GetOfferPro
 
   return (
     <section className="offer">
-      <div className="offer__gallery-container container">
+      <div className="offer__gallery-container container" data-testid="offer-gallery">
         <div className="offer__gallery">
           {images.slice(0, Setting.OffersPhotoCount).map((image) => (
             <div className="offer__image-wrapper" key={image} >
