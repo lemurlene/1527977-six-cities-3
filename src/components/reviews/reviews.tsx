@@ -10,10 +10,11 @@ type GetReviewProps = {
   authorizationStatus: AuthorizationEnum;
 }
 
-function Reviews({comments, authorizationStatus }: GetReviewProps): JSX.Element {
+function Reviews({ comments, authorizationStatus }: GetReviewProps): JSX.Element {
   const isAuthenticated = authorizationStatus === AuthorizationStatus.Auth;
-  const latestReviews = comments.toSorted((a: ReviewType, b: ReviewType,) =>
-    dayjs(b.date).diff(dayjs(a.date))).slice(0, SHOW_REVIEWS_COUNT);
+  const latestReviews = [...comments].sort((a: ReviewType, b: ReviewType) =>
+    dayjs(b.date).diff(dayjs(a.date))
+  ).slice(0, SHOW_REVIEWS_COUNT);
 
   return (
     <section className="offer__reviews reviews">
