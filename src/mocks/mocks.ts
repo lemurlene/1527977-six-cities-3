@@ -74,17 +74,25 @@ export const makeFakeOffer = (params: Parameters<typeof makeFakeCard>[0] = {}): 
   maxAdults: 4
 } as FullOfferType);
 
-export const makeFakeReview = () => ({
-  id: 'faa632dd-82a8-4fe2-a397-91bdfe78a874',
-  date: new Date().toISOString(),
-  user: {
-    name: name.title(),
-    avatarUrl: internet.avatar(),
-    isPro: datatype.boolean(),
-  },
-  comment: lorem.sentence(),
-  rating: generateRating(),
-} as ReviewType);
+interface MakeFakeReviewOptions {
+  date?: string;
+}
+
+export const makeFakeReview = (options?: MakeFakeReviewOptions): ReviewType => {
+  const { date } = options || {};
+
+  return {
+    id: 'faa632dd-82a8-4fe2-a397-91bdfe78a874',
+    date: date || new Date().toISOString(),
+    user: {
+      name: name.title(),
+      avatarUrl: internet.avatar(),
+      isPro: datatype.boolean(),
+    },
+    comment: lorem.sentence(),
+    rating: generateRating(),
+  } as ReviewType;
+};
 
 export const makeFakeStore = (initialState?: Partial<State>): State => ({
   USER: {

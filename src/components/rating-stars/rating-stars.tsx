@@ -10,7 +10,7 @@ type GetRatingStarsProps = {
 function RatingStars({ rating, classPrefix, isOffer }: GetRatingStarsProps): JSX.Element {
   const ratingStars = getRatingStars(rating);
   return (
-    <div className={`rating ${classPrefix}__rating`}>
+    <div className={`rating ${classPrefix}__rating`} data-testid="rating-stars">
       <div className={`rating__stars ${classPrefix}__stars`}>
         <span style = {{ width: `${ratingStars}%` }}></span>
         <span className="visually-hidden">Rating</span>
