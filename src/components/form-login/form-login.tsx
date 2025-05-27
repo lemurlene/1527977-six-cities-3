@@ -37,7 +37,13 @@ function FormLogin(): JSX.Element {
   };
 
   return (
-    <form className="login__form form" action="#" method="post" onSubmit={handleSubmitForm}>
+    <form
+      className="login__form form"
+      action="#"
+      method="post"
+      onSubmit={handleSubmitForm}
+      data-testid="form-login"
+    >
       {FormLoginFields.map((field) => (
         <Input
           key={field.name}

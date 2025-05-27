@@ -7,7 +7,7 @@ function NotFoundPage(): JSX.Element {
       <Helmet>
         <title>6 cities: Page not found</title>
       </Helmet>
-      <main className="page__main page__main--index page__main--index-empty">
+      <main className="page__main page__main--index page__main--index-empty" data-testid="not-found-page">
         <h1 className="visually-hidden">404 Page not found</h1>
         <div className="cities">
           <div className="cities__places-container container cities__places-container--empty">

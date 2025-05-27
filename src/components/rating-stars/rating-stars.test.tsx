@@ -10,7 +10,7 @@ describe('RatingStars component', () => {
     const starsElement = screen.getByTestId('rating-stars');
     const widthSpan = starsElement.querySelector('span[style]');
 
-    expect(widthSpan).toHaveStyle('width: 60%'); // 3 * 20 = 60%
+    expect(widthSpan).toHaveStyle('width: 60%');
     expect(starsElement).toHaveClass('rating test__rating');
   });
 

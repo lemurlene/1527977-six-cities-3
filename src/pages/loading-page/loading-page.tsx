@@ -7,7 +7,7 @@ function LoadingPage(): JSX.Element {
       <Helmet>
         <title>6 cities: Page loading</title>
       </Helmet>
-      <main className="page__main page__main--index page__main--index-empty">
+      <main className="page__main page__main--index page__main--index-empty" data-testid="loading-page">
         <h1 className="visually-hidden">Page loading</h1>
         <div className="cities">
           <div className="cities__places-container container cities__places-container--empty">

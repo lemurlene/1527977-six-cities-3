@@ -17,7 +17,7 @@ function FavoritesPage(): JSX.Element {
       <div className={cn('page', { 'page--favorites-empty': isEmpty })}>
         {isEmpty && <FavoritesEmpty />}
         {!isEmpty && (
-          <main className="page__main page__main--favorites">
+          <main className="page__main page__main--favorites" data-testid="favorites-page">
             <div className="page__favorites-container container">
               <section className="favorites">
                 <h1 className="favorites__title">Saved listing</h1>
