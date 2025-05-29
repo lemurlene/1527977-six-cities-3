@@ -135,7 +135,7 @@ export const makeFakeStore = (initialState?: Partial<State>): State => ({
   ERROR: {
     error: null,
   },
-  ...initialState ?? {},
+  ...initialState,
 });
 
 export const makeFakeUser = (): UserData => (
