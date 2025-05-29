@@ -40,7 +40,7 @@ function Offer({ offer, comments, offersNear, authorizationStatus }: GetOfferPro
   const offersMap = [offer, ...safeOffersNear.slice(0, maxNearOffers)];
 
   return (
-    <section className="offer">
+    <section className="offer" data-testid="offer">
       <div className="offer__gallery-container container" data-testid="offer-gallery">
         <div className="offer__gallery">
           {images.slice(0, Setting.OffersPhotoCount).map((image) => (
