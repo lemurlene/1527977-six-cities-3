@@ -62,7 +62,7 @@ function MainPage(): JSX.Element {
       <Helmet>
         <title>6 cities</title>
       </Helmet>
-      <main className={mainClasses}>
+      <main className={mainClasses} data-testid="main-page">
         <h1 className="visually-hidden">Cities</h1>
         <TabsMemo />
         <div className="cities">
