@@ -1,11 +1,14 @@
+import { forwardRef } from 'react';
+
 type InputProps = {
   type: string;
   name: string;
   placeholder: string;
-}
+  pattern?: string;
+} & React.InputHTMLAttributes<HTMLInputElement>;
 
-function Input({ type, name, placeholder }: InputProps): JSX.Element {
-  return (
+const Input = forwardRef<HTMLInputElement, InputProps>(
+  ({ type, name, placeholder, pattern, title, disabled }, ref) => (
     <div className="login__input-wrapper form__input-wrapper">
       <label className="visually-hidden">{placeholder}</label>
       <input
@@ -14,9 +17,15 @@ function Input({ type, name, placeholder }: InputProps): JSX.Element {
         name={name}
         placeholder={placeholder}
         required
+        pattern={pattern}
+        ref={ref}
+        title={title}
+        disabled={disabled}
       />
     </div>
-  );
-}
+  )
+);
+
+Input.displayName = 'Input';
 
 export default Input;

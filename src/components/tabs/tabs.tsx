@@ -1,24 +1,27 @@
 import { NavLink, useSearchParams } from 'react-router-dom';
-import { MouseEvent } from 'react';
-import { useAppDispatch, useAppSelector } from '../../hooks/store';
-import { changeCity } from '../../store/action';
-import { selectCity } from '../../store/selectors/offers';
+import { MouseEvent, memo, useCallback } from 'react';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { changeCity } from '../../store/city/city.slice';
+import { selectCurrentCity } from '../../store/city/city.selector';
 import { Cities } from '../../const/const';
 import { CitiesEnum } from '../../const/type';
 import { getClassForNavLink } from './utils';
 
-function Tabs(): JSX.Element {
+const Tabs = (): JSX.Element => {
   const [searchParams, setSearchParams] = useSearchParams();
   const dispatch = useAppDispatch();
-  const currentCity = useAppSelector(selectCity);
+  const currentCity = useAppSelector(selectCurrentCity);
 
-  const handleCityChange = (city: CitiesEnum) => (evt: MouseEvent<HTMLAnchorElement>) => {
-    evt.preventDefault();
-    if (city !== currentCity) {
-      dispatch(changeCity(city));
-      setSearchParams({ city });
-    }
-  };
+  const handleCityChange = useCallback(
+    (city: CitiesEnum) => (evt: MouseEvent<HTMLAnchorElement>) => {
+      evt.preventDefault();
+      if (city !== currentCity) {
+        dispatch(changeCity(city));
+        setSearchParams({ city });
+      }
+    },
+    [currentCity, dispatch, setSearchParams]
+  );
 
   return (
     <div className="tabs">
@@ -43,6 +46,8 @@ function Tabs(): JSX.Element {
       </section>
     </div>
   );
-}
+};
 
-export default Tabs;
+const TabsMemo = memo(Tabs);
+
+export default TabsMemo;

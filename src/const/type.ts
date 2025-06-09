@@ -1,10 +1,11 @@
 import { Cities } from './const';
+import { AuthorizationStatus } from './enum';
 
 type HousingTypes = 'apartment' | 'room' | 'house' | 'hotel';
 
 export type CitiesEnum = typeof Cities[keyof typeof Cities];
 
-type CityType = {
+export type CityType = {
   name: CitiesEnum;
   location: {
     latitude: number;
@@ -13,7 +14,7 @@ type CityType = {
   };
 };
 
-type FullOfferType = {
+export type FullOfferType = {
   id: string;
   title: string;
   description: string;
@@ -68,3 +69,5 @@ export type ReviewType = {
   comment: string;
   rating: number;
 };
+
+export type AuthorizationEnum = typeof AuthorizationStatus[keyof typeof AuthorizationStatus];

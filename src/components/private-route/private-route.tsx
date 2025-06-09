@@ -1,18 +1,28 @@
 import { Navigate } from 'react-router-dom';
+import { memo, useMemo } from 'react';
 import { AppRoute, AuthorizationStatus } from '../../const/enum';
+import { AuthorizationEnum } from '../../const/type';
 
 type PrivateRouteProps = {
-  authorizationStatus: AuthorizationStatus;
+  authorizationStatus: AuthorizationEnum;
   isReverse?: boolean;
   children: JSX.Element;
 }
 
-function PrivateRoute({ authorizationStatus, isReverse, children }: PrivateRouteProps) {
-  return (
-    authorizationStatus === (isReverse ? AuthorizationStatus.NoAuth : AuthorizationStatus.Auth) ?
-      children :
-      <Navigate to={isReverse ? AppRoute.Root : AppRoute.Login} />
+const PrivateRoute = ({ authorizationStatus, isReverse = false, children }: PrivateRouteProps) => {
+  const shouldRenderChildren = useMemo(
+    () => authorizationStatus === (isReverse ? AuthorizationStatus.NoAuth : AuthorizationStatus.Auth),
+    [authorizationStatus, isReverse]
   );
-}
 
-export default PrivateRoute;
+  const redirectTo = useMemo(
+    () => isReverse ? AppRoute.Root : AppRoute.Login,
+    [isReverse]
+  );
+
+  return shouldRenderChildren ? children : <Navigate to={redirectTo} />;
+};
+
+const PrivateRouteMemo = memo(PrivateRoute);
+
+export default PrivateRouteMemo;

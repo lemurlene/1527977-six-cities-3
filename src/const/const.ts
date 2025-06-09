@@ -1,10 +1,9 @@
 export const Setting = {
   DefaultCity: 'Paris',
-  CardsCount: 5,
   RatingsCoefficient: 20,
+  RatingStars: 5,
   OffersPhotoCount: 6,
-  NearPlacesCardsCount: 3,
-  MinReviewCharacters: 50,
+  NearPlacesCount: 3,
 } as const;
 
 export const Cities = {
@@ -38,9 +37,9 @@ export const CityLocation = {
     zoom: 13
   },
   Amsterdam: {
-    latitude: 52.35514938496378,
-    longitude: 4.673877537499948,
-    zoom: 8
+    latitude: 52.37454,
+    longitude: 4.897976,
+    zoom: 13
   },
   Hamburg: {
     latitude: 53.550341,
@@ -48,39 +47,3 @@ export const CityLocation = {
     zoom: 13
   },
 } as const;
-
-export const FormLoginFields = [
-  {
-    type: 'email',
-    name: 'email',
-    placeholder: 'Email',
-  },
-  {
-    type: 'password',
-    name: 'password',
-    placeholder: 'Password',
-  },
-];
-
-export const FormReviewFields = [
-  {
-    ratingValue: 5,
-    title: 'perfect'
-  },
-  {
-    ratingValue: 4,
-    title: 'good'
-  },
-  {
-    ratingValue: 3,
-    title: 'not bad'
-  },
-  {
-    ratingValue: 2,
-    title: 'badly'
-  },
-  {
-    ratingValue: 1,
-    title: 'terribly'
-  }
-];

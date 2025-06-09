@@ -1,5 +1,6 @@
-import { useAppDispatch } from '../../hooks/store';
-import { changeSort } from '../../store/action';
+import cn from 'classnames';
+import { useAppDispatch } from '../../hooks';
+import { changeSort } from '../../store/sort/sort.slice';
 import { SortType } from './type';
 
 type SortOptionProps = {
@@ -12,7 +13,8 @@ function SortOption({ isCurrent, sortType }: SortOptionProps): JSX.Element {
 
   return (
     <li
-      className={`places__option ${isCurrent && 'places__option--active'}`}
+      className={cn('places__option',
+        {'places__option--active': isCurrent})}
       tabIndex={0}
       onClick={() => dispatch(changeSort(sortType))}
     >

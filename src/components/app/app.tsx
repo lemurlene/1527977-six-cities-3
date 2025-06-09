@@ -1,59 +1,90 @@
+import { useEffect } from 'react';
 import { Route, BrowserRouter, Routes } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import Layout from '../layout';
+import ErrorServer from '../error-server';
 import MainPageWrapper from '../../pages/main-page';
 import LoginPage from '../../pages/login-page';
 import FavoritesPage from '../../pages/favorites-page';
 import OfferPage from '../../pages/offer-page';
 import NotFoundPage from '../../pages/not-found-page';
-import PrivateRoute from '../private-route';
-import { CardType, OfferType, ReviewType } from '../../const/type';
+import LoadingPage from '../../pages/loading-page';
+import PrivateRouteMemo from '../private-route';
+import { fetchOffers, checkAuthorization, fetchFavoriteOffers } from '../../store/api-action';
 import { AppRoute } from '../../const/enum';
-import { getAuthorizationStatus } from '../../mocks/authorizationStatus';
+import { useAppSelector, useAppDispatch } from '../../hooks';
+import { setErrorConnectionOffers } from '../../store/offers/offers.slice';
+import { selectErrorConnectionOffers } from '../../store/offers/offers.selector';
+import { selectAuthorization } from '../../store/user/user.selector';
+import IsAppLoading from './utils';
 
-type AppProps = {
-  offers: CardType[];
-  cardsCount: number;
-  offer: OfferType;
-  comments: ReviewType[];
-  offersNear: CardType[];
-  NearPlacesCardsCount: number;
-}
+function App(): JSX.Element {
+  const dispatch = useAppDispatch();
+  const authorizationStatus = useAppSelector(selectAuthorization);
+  const isServerError = useAppSelector(selectErrorConnectionOffers);
+  const isAppLoading = IsAppLoading();
 
-function App({ offers, cardsCount, offer, comments, offersNear, NearPlacesCardsCount }: AppProps): JSX.Element {
-  const authorizationStatus = getAuthorizationStatus();
+  useEffect(() => {
+    dispatch(fetchOffers())
+      .unwrap()
+      .then(() => {
+        dispatch(setErrorConnectionOffers(false));
+        dispatch(checkAuthorization())
+          .then((response) => {
+            if (response.meta.requestStatus === 'fulfilled') {
+              dispatch(fetchFavoriteOffers());
+            }
+          });
+      })
+      .catch(() => {
+        dispatch(setErrorConnectionOffers(true));
+      });
+  }, [dispatch]);
+
   return (
     <HelmetProvider>
       <BrowserRouter>
-        <Routes>
-          <Route path={AppRoute.Root} element={<Layout />}>
-            <Route index
-              element={<MainPageWrapper cardsCount={cardsCount} />}
-            />
-            <Route path={AppRoute.Login}
-              element={
-                <PrivateRoute authorizationStatus={authorizationStatus} isReverse>
-                  <LoginPage />
-                </PrivateRoute>
-              }
-            />
-            <Route path={AppRoute.Favorites}
-              element={
-                <PrivateRoute authorizationStatus={authorizationStatus}>
-                  <FavoritesPage offers={offers} />
-                </PrivateRoute>
-              }
-            />
-            <Route path={AppRoute.Offer}
-              element={<OfferPage offer={offer} comments={comments} offersNear={offersNear} NearPlacesCardsCount={NearPlacesCardsCount}/>}
-            />
-            <Route path={AppRoute.Error404}
-              element={<NotFoundPage />}
-            />
-          </Route>
-        </Routes>
+        {isServerError ? (
+          <ErrorServer mainPage />
+        ) : (
+          <Routes>
+            <Route path={AppRoute.Root} element={<Layout authorizationStatus={authorizationStatus} />}>
+              {isAppLoading ? (
+                <Route index element={<LoadingPage />} />
+              ) : (
+                <>
+                  <Route index element={<MainPageWrapper />} />
+                  <Route
+                    path={AppRoute.Login}
+                    element={
+                      <PrivateRouteMemo authorizationStatus={authorizationStatus} isReverse>
+                        <LoginPage />
+                      </PrivateRouteMemo>
+                    }
+                  />
+                  <Route
+                    path={AppRoute.Favorites}
+                    element={
+                      <PrivateRouteMemo authorizationStatus={authorizationStatus}>
+                        <FavoritesPage />
+                      </PrivateRouteMemo>
+                    }
+                  />
+                  <Route
+                    path={AppRoute.Offer}
+                    element={<OfferPage authorizationStatus={authorizationStatus} />}
+                  />
+                  <Route
+                    path={AppRoute.Error404}
+                    element={<NotFoundPage />}
+                  />
+                </>
+              )}
+            </Route>
+          </Routes>
+        )}
       </BrowserRouter>
-    </HelmetProvider>
+    </HelmetProvider >
   );
 }
 

@@ -5,7 +5,7 @@ import 'leaflet/dist/leaflet.css';
 import { AppRoute } from '../../const/enum';
 import { getState } from './utils';
 import useMap from '../../hooks/use-map/';
-import { CardType } from '../../const/type';
+import { CardType, OfferType } from '../../const/type';
 import { currentCustomIcon, defaultCustomIcon } from './const';
 
 type MapProps = {
@@ -14,7 +14,7 @@ type MapProps = {
     longitude: number;
     zoom: number;
   };
-  offers: CardType[];
+  offers: (CardType | OfferType)[];
   selectedOfferId?: string | null;
 }
 

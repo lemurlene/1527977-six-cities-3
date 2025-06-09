@@ -1,2 +1,2 @@
-import FormLogin from './form-login';
-export default FormLogin;
+import FormLoginMemo from './form-login';
+export default FormLoginMemo;

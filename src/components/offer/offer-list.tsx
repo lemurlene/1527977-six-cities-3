@@ -1,29 +1,31 @@
 import { useLocation } from 'react-router-dom';
-import { useAppSelector } from '../../hooks/store';
-import { selectSort } from '../../store/selectors/offers';
+import { memo } from 'react';
+import { useAppSelector } from '../../hooks';
+import { selectSortListType } from '../../store/sort/sort.selector';
 import { getState } from './utils';
 import { AppRoute } from '../../const/enum';
-import Card from './card';
+import CardMemo from './card';
 import { CardType } from '../../const/type';
 import { sortOffers } from '../sort/utils';
 
 
 type GetCardsProps = {
-  cardsCount: number;
+  cardsCount?: number;
   offers: CardType[];
-  handleHover: (id: string | null) => void;
+  handleHover?: (id: string | null) => void;
 }
 
-function OfferList({ offers, cardsCount, handleHover }: GetCardsProps): JSX.Element {
+function OfferList({ offers, cardsCount = offers.length, handleHover }: GetCardsProps): JSX.Element {
   const { pathname } = useLocation();
   const { offerListClass } = getState(pathname as AppRoute);
-  const currentSort = useAppSelector(selectSort);
+  const currentSort = useAppSelector(selectSortListType);
   const sortedOffers = sortOffers(offers, currentSort);
+  const cardsOnPage = sortedOffers.slice(0, Math.min(cardsCount, sortedOffers.length));
 
   return (
     <div className={`${offerListClass} places__list`}>
-      {sortedOffers.slice(0, cardsCount).map((card) => (
-        <Card
+      {cardsOnPage.map((card) => (
+        <CardMemo data-testid="card"
           key={card.id}
           card={card}
           handleHover={handleHover}
@@ -32,6 +34,6 @@ function OfferList({ offers, cardsCount, handleHover }: GetCardsProps): JSX.Elem
   );
 }
 
-export default OfferList;
+const OfferListMemo = memo(OfferList);
 
-
+export default OfferListMemo;

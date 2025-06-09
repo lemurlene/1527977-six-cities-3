@@ -1,13 +1,14 @@
-import { useEffect, useRef, useState } from 'react';
-import { useAppSelector } from '../../hooks/store';
-import { selectSort } from '../../store/selectors/offers';
+import { useEffect, useRef, useState, memo, useCallback } from 'react';
+import cn from 'classnames';
+import { useAppSelector } from '../../hooks';
+import { selectSortListType } from '../../store/sort/sort.selector';
 import SortOption from './sort-option';
 import { SortTypes } from './const';
 
 function Sort(): JSX.Element {
   const sortRef = useRef<HTMLElement>(null);
   const [isSortingOpen, setSortingOpen] = useState(false);
-  const currentSortType = useAppSelector(selectSort);
+  const currentSortType = useAppSelector(selectSortListType);
 
   useEffect(() => {
     const handleClickSort = (evt: MouseEvent) => {
@@ -29,9 +30,9 @@ function Sort(): JSX.Element {
       sortType={option}
     />));
 
-  const handleSortTypeChange = () => {
+  const handleSortTypeChange = useCallback(() => {
     setSortingOpen((lastOpened) => !lastOpened);
-  };
+  }, []);
 
   return (
     <form className="places__sorting" action="#" method="get">
@@ -41,17 +42,23 @@ function Sort(): JSX.Element {
         tabIndex={0}
         ref={sortRef}
         onClick={handleSortTypeChange}
+        data-testid="sort-type"
       >
         {currentSortType}
         <svg className="places__sorting-arrow" width="7" height="4">
           <use xlinkHref="#icon-arrow-select"></use>
         </svg>
       </span>
-      <ul className={`places__options places__options--custom ${isSortingOpen && 'places__options--opened'}`}>
+      <ul data-testid="sort-options"
+        className={cn('places__options places__options--custom',
+          { 'places__options--opened': isSortingOpen })}
+      >
         {sortOption}
       </ul>
     </form>
   );
 }
 
-export default Sort;
+const SortMemo = memo(Sort);
+
+export default SortMemo;

@@ -1,6 +1,8 @@
+import { matchPath } from 'react-router-dom';
 import { AppRoute } from '../../const/enum';
 
 export const getLayoutState = (pathname: AppRoute) => {
+  const isOfferPage = matchPath(AppRoute.Offer, pathname);
   let rootClassName = '';
   let linkClassName = '';
   let shouldRenderUser = true;
@@ -14,8 +16,9 @@ export const getLayoutState = (pathname: AppRoute) => {
     shouldRenderUser = false;
   } else if (pathname === AppRoute.Favorites) {
     shouldRenderFooter = true;
-  } else if (pathname === AppRoute.Error404) {
+  } else if (!isOfferPage) {
     rootClassName = ' page--gray page--main';
+    shouldRenderFooter = true;
   }
   return { rootClassName, linkClassName, shouldRenderUser, shouldRenderFooter };
 };

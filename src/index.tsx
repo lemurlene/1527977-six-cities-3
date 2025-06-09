@@ -3,10 +3,8 @@ import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
 import App from './components/app';
 import { store } from './store';
-import { Setting } from './const/const';
-import { offers } from './mocks/offers';
-import { offer } from './mocks/offer';
-import { comments } from './mocks/comments';
+import ErrorMessage from './components/error-message';
+
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -15,10 +13,8 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App cardsCount={Setting.CardsCount} offers={offers} offer={offer}
-        comments={comments} offersNear={offers}
-        NearPlacesCardsCount={Setting.NearPlacesCardsCount}
-      />
+      <ErrorMessage />
+      <App />
     </Provider>
   </React.StrictMode>
 );

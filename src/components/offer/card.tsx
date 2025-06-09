@@ -1,20 +1,22 @@
 import { Link, useLocation } from 'react-router-dom';
-import cn from 'classnames';
+import { memo, useCallback, useMemo } from 'react';
+import BookmarkMemo from '../bookmark';
 import { getState } from './utils';
 import { AppRoute } from '../../const/enum';
 import { CardType } from '../../const/type';
 import RatingStars from '../rating-stars';
+import { DefaultCardSize } from './const';
 
 type CardProps = {
   card: CardType;
-  handleHover: (id: string | null) => void;
+  handleHover?: (id: string | null) => void;
   size?: {
     width: number;
     height: number;
   };
 }
 
-function Card({ card, handleHover, size = { width: 260, height: 200 } }: CardProps): JSX.Element {
+function Card({ card, handleHover, size = DefaultCardSize }: CardProps): JSX.Element {
   const {
     id,
     title,
@@ -27,56 +29,70 @@ function Card({ card, handleHover, size = { width: 260, height: 200 } }: CardPro
   } = card;
   const { pathname } = useLocation();
   const { placeClassPrefix, addInfoClass } = getState(pathname as AppRoute);
+
+  const handleMouseEnter = useCallback(() => {
+    handleHover?.(id);
+  }, [handleHover, id]);
+
+  const handleMouseLeave = useCallback(() => {
+    handleHover?.(null);
+  }, [handleHover]);
+
+  const eventHandlers = useMemo(() => (
+    handleHover ? {
+      onMouseEnter: handleMouseEnter,
+      onMouseLeave: handleMouseLeave
+    } : {}
+  ), [handleHover, handleMouseEnter, handleMouseLeave]);
+
+  const cardClasses = useMemo(() => ({
+    article: `${placeClassPrefix}__card place-card`,
+    imageWrapper: `${placeClassPrefix}__image-wrapper place-card__image-wrapper`,
+    info: `place-card__info ${addInfoClass}`,
+  }), [placeClassPrefix, addInfoClass]);
+
   return (
-    <Link to={`/offer/${id}`} className={`${placeClassPrefix}__card place-card`}>
-      <article
-        className={`${placeClassPrefix}__card place-card`}
-        onMouseEnter={() => handleHover && handleHover(id)}
-        onMouseLeave={() => handleHover && handleHover(null)}
-      >
-        {isPremium && (
-          <div className="place-card__mark">
-            <span>Premium</span>
-          </div>
-        )}
-        <div className={`${placeClassPrefix}__image-wrapper place-card__image-wrapper`}>
+    <article
+      className={cardClasses.article}
+      {...eventHandlers}
+    >
+      {isPremium && (
+        <div className="place-card__mark">
+          <span>Premium</span>
+        </div>
+      )}
+      <div className={cardClasses.imageWrapper}>
+        <Link to={`/offer/${id}`}>
           <img
             className="place-card__image"
             src={previewImage}
             width={size.width}
             height={size.height}
             alt="Place image"
+            loading="lazy"
           />
-        </div>
-        <div className={`place-card__info ${addInfoClass}`}>
-          <div className="place-card__price-wrapper">
-            <div className="place-card__price">
-              <b className="place-card__price-value">&euro;{price}</b>
-              <span className="place-card__price-text">&#47;&nbsp;night</span>
-            </div>
-            <button
-              className={cn(
-                'place-card__bookmark-button button',
-                { 'place-card__bookmark-button--active': isFavorite }
-              )}
-              type="button"
-            >
-              <svg className="place-card__bookmark-icon" width="18" height="19">
-                <use xlinkHref="#icon-bookmark"></use>
-              </svg>
-              <span className="visually-hidden">
-                {isFavorite && 'In bookmarks'}
-                {!isFavorite && 'To bookmarks'}
-              </span>
-            </button>
+        </Link>
+      </div>
+      <div className={cardClasses.info}>
+        <div className="place-card__price-wrapper">
+          <div className="place-card__price">
+            <b className="place-card__price-value">&euro;{price}</b>
+            <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <RatingStars rating={rating} classPrefix='place-card' />
-          <h2 className="place-card__name">{title}</h2>
-          <p className="place-card__type">{type}</p>
+          <BookmarkMemo offerId={id} isFavorite={isFavorite} />
         </div>
-      </article>
-    </Link>
+        <RatingStars rating={rating} classPrefix='place-card' />
+        <h2 className="place-card__name">
+          <Link to={`/offer/${id}`}>
+            {title}
+          </Link>
+        </h2>
+        <p className="place-card__type">{type}</p>
+      </div>
+    </article>
   );
 }
 
-export default Card;
+const CardMemo = memo(Card);
+
+export default CardMemo;

@@ -7,22 +7,14 @@ function NotFoundPage(): JSX.Element {
       <Helmet>
         <title>6 cities: Page not found</title>
       </Helmet>
-      <main className="page__main page__main--index page__main--index-empty">
+      <main className="page__main page__main--index page__main--index-empty" data-testid="not-found-page">
         <h1 className="visually-hidden">404 Page not found</h1>
         <div className="cities">
           <div className="cities__places-container container cities__places-container--empty">
             <section className="cities__no-places">
               <div className="cities__status-wrapper tabs__content">
                 <b className="cities__status">404 Page not found</b>
-                <Link to="/"
-                  style={{
-                    color: '#fff',
-                    backgroundColor: '#4481c3',
-                    display: 'block',
-                    padding: '9px 21px 6px 11px',
-                    fontSize: '19px',
-                  }}
-                >
+                <Link to="/" className='tabs__item--active locations__item-link'>
                   Вернуться на главную
                 </Link>
               </div>

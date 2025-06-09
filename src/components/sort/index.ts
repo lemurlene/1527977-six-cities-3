@@ -1,2 +1,2 @@
-import Sort from './sort';
-export default Sort;
+import SortMemo from './sort';
+export default SortMemo;

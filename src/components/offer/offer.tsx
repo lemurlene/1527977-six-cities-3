@@ -1,18 +1,22 @@
 import cn from 'classnames';
 import { OfferType, ReviewType, CardType } from '../../const/type';
+import BookmarkMemo from '../bookmark';
 import RatingStars from '../rating-stars';
 import Reviews from '../reviews';
 import Map from '../map';
 import { Setting } from '../../const/const';
+import { AuthorizationEnum } from '../../const/type';
 
 type GetOfferProps = {
   offer: OfferType;
   comments: ReviewType[];
   offersNear: CardType[];
+  authorizationStatus: AuthorizationEnum;
 }
 
-function Offer({ offer, comments, offersNear }: GetOfferProps): JSX.Element {
+function Offer({ offer, comments, offersNear, authorizationStatus }: GetOfferProps): JSX.Element {
   const {
+    id,
     title,
     description,
     type,
@@ -31,12 +35,13 @@ function Offer({ offer, comments, offersNear }: GetOfferProps): JSX.Element {
     maxAdults
   } = offer;
 
-  // const offersMap = [offer, ...offersNear];
-  const offersMap = offersNear;
+  const safeOffersNear = offersNear || [];
+  const maxNearOffers = Math.min(Setting.NearPlacesCount, safeOffersNear.length);
+  const offersMap = [offer, ...safeOffersNear.slice(0, maxNearOffers)];
 
   return (
-    <section className="offer">
-      <div className="offer__gallery-container container">
+    <section className="offer" data-testid="offer">
+      <div className="offer__gallery-container container" data-testid="offer-gallery">
         <div className="offer__gallery">
           {images.slice(0, Setting.OffersPhotoCount).map((image) => (
             <div className="offer__image-wrapper" key={image} >
@@ -54,21 +59,7 @@ function Offer({ offer, comments, offersNear }: GetOfferProps): JSX.Element {
           )}
           <div className="offer__name-wrapper">
             <h1 className="offer__name">{title}</h1>
-            <button
-              className={cn(
-                'offer__bookmark-button button',
-                { 'offer__bookmark-button--active': isFavorite }
-              )}
-              type="button"
-            >
-              <svg className="offer__bookmark-icon" width="31" height="33">
-                <use xlinkHref="#icon-bookmark"></use>
-              </svg>
-              <span className="visually-hidden">
-                {isFavorite && 'In bookmarks'}
-                {!isFavorite && 'To bookmarks'}
-              </span>
-            </button>
+            <BookmarkMemo isOffer offerId={id} isFavorite={isFavorite}/>
           </div>
           <RatingStars rating={rating} classPrefix='offer' isOffer />
           <ul className="offer__features">
@@ -97,20 +88,20 @@ function Offer({ offer, comments, offersNear }: GetOfferProps): JSX.Element {
           <div className="offer__host">
             <h2 className="offer__host-title">Meet the host</h2>
             <div className="offer__host-user user">
-              <div className="offer__avatar-wrapper offer__avatar-wrapper--pro user__avatar-wrapper">
+              <div className={cn('offer__avatar-wrapper user__avatar-wrapper', { 'offer__avatar-wrapper--pro': isPro })}>
                 <img className="offer__avatar user__avatar" src={avatarUrl} width="74" height="74" alt="Host avatar" />
               </div>
               <span className="offer__user-name">{name}</span>
-              <span className="offer__user-status">{isPro}</span>
+              {isPro && <span className="offer__user-status">Pro</span>}
             </div>
             <div className="offer__description">
               <p className="offer__text">{description}</p>
             </div>
           </div>
-          <Reviews comments={comments} />
+          <Reviews comments={comments} authorizationStatus={authorizationStatus} />
         </div>
       </div>
-      <Map city={offer.city.location} offers={offersMap} selectedOfferId={offer.id} />
+      <Map city={offer.city.location} offers={offersMap} selectedOfferId={id} />
     </section>
   );
 }

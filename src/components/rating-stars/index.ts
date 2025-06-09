@@ -1,2 +1,2 @@
-import RatingStars from './rating-stars';
-export default RatingStars;
+import RatingStarsMemo from './rating-stars';
+export default RatingStarsMemo;

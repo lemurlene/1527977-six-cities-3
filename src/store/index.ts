@@ -1,6 +1,18 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { reducer } from './reducer';
+import reducer from './root-reducer.ts';
+import createAPI from '../services/api.ts';
+import { processErrorHandle } from '../services/process-error-handle';
 
-const store = configureStore({reducer});
+const api = createAPI(processErrorHandle);
 
-export {store};
+const store = configureStore({
+  reducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      thunk: {
+        extraArgument: api,
+      },
+    }),
+});
+
+export {api, store};

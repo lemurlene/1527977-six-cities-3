@@ -1,17 +1,17 @@
-import { OfferList } from '../../components/offer';
+import { OfferListMemo } from '../../components/offer';
 import { CardType } from '../../const/type';
+import { Setting } from '../../const/const';
 
 type GetPlacesProps = {
-  NearPlacesCardsCount: number;
   offersNear: CardType[];
-  handleHover: (id: string | null) => void;
 }
 
-function OffersNear({ offersNear, NearPlacesCardsCount, handleHover }: GetPlacesProps): JSX.Element {
+function OffersNear({ offersNear }: GetPlacesProps): JSX.Element {
+  const NearPlacesCount = Setting.NearPlacesCount;
   return (
-    <section className="near-places places">
+    <section className="near-places places" data-testid="offers-near">
       <h2 className="near-places__title">Other places in the neighbourhood</h2>
-      <OfferList offers={offersNear} cardsCount={NearPlacesCardsCount} handleHover={handleHover} />
+      <OfferListMemo offers={offersNear} cardsCount={NearPlacesCount} />
     </section>
   );
 }
