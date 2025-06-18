@@ -1,10 +1,10 @@
 import { describe, it, expect } from 'vitest';
-import { getRandomCity } from './utils';
+import { GetRandomCity } from './utils';
 import { Cities } from '../../const/const';
 
 describe('getRandomCity', () => {
   it('should return a city from Cities', () => {
-    const city = getRandomCity();
+    const city = GetRandomCity();
 
     expect(Object.values(Cities)).toContain(city);
   });
@@ -12,7 +12,7 @@ describe('getRandomCity', () => {
   it('should return different cities (random check)', () => {
     const results = new Set<string>();
     for (let i = 0; i < 100; i++) {
-      results.add(getRandomCity());
+      results.add(GetRandomCity());
     }
     expect(results.size).toBeGreaterThan(1);
   });
