@@ -7,8 +7,7 @@ import { CardType, FullOfferType, ReviewType, CityType, CitiesEnum } from '../co
 import { LoadingStatus, AuthorizationStatus } from '../const/enum';
 import { Setting, Cities, CityLocation } from '../const/const';
 import { DefaultSort } from '../components/sort/const';
-import { getRandomCity } from '../pages/login-page/utils';
-import { generateRating } from './utils';
+import { generateRating, getRandomCity } from './utils';
 
 export type AppThunkDispatch = ThunkDispatch<State, ReturnType<typeof createAPI>, Action>;
 

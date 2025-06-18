@@ -1,12 +1,15 @@
 import { Helmet } from 'react-helmet-async';
 import { Link, useNavigate } from 'react-router-dom';
+import { useAppSelector } from '../../hooks';
+import { selectCurrentCity } from '../../store/city/city.selector';
 import FormLogin from '../../components/form-login';
-import { getRandomCity } from './utils';
+import { GetRandomCity } from './utils';
 import { CitiesEnum } from '../../const/type';
 
 function LoginPage(): JSX.Element {
   const navigate = useNavigate();
-  const randomCity = getRandomCity();
+  const currentCity = useAppSelector(selectCurrentCity);
+  const randomCity = GetRandomCity(currentCity);
   const handleCityClick = (city: CitiesEnum) => {
     navigate(`/?city=${city}`);
   };
